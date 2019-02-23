@@ -1,24 +1,29 @@
 <template>
-	<div class="col-sm-3 col-xs-12 part_right">
-		<div class="row text-center inform">
-			<img src="../../assets/img/icon.png">
-			<h4 style="font-weight: bold;">Jack.C</h4>
-			<div class="col-sm-12 my_inform">
-				<div class="col-sm-4 col-xs-4">
-					<div>111</div>
-					<div class="sort">关注</div>
+	 <div class="col-sm-3 col-xs-12 part_right">
+                <div id="myself">
+                <div class="row text-center inform">
+                    <img v-bind:src="imgBaseUrl+user.uimage">
+                    <h4 style="font-weight: bold;">{{user.uname}}</h4>
+                    <div class="col-sm-12 my_inform">
+                        <div class="col-sm-4 col-xs-4">
+                            <div><span v-if="nav_msg.attendCount>0">{{nav_msg.attendCount}}</span>
+                                <span v-else>0</span></div>
+                            <div class="sort">关注</div>
 
-				</div>
-				<div class="col-sm-4 col-xs-4">
-					<div>111</div>
-					<div class="sort">粉丝</div>
-				</div>
-				<div class="col-sm-4 col-xs-4">
-					<div>111</div>
-					<div class="sort">博客</div>
-				</div>
-			</div>
-		</div>
+                        </div>
+                        <div class="col-sm-4 col-xs-4">
+                            <div><span v-if="nav_msg.fansCount>0">{{nav_msg.fansCount}}</span>
+                                <span v-else>0</span></div>
+                            <div class="sort">粉丝</div>
+                        </div>
+                        <div class="col-sm-4 col-xs-4">
+                            <div><span v-if="nav_msg.blogCount>0">{{nav_msg.blogCount}}</span>
+                                <span v-else>0</span></div>
+                            <div class="sort">博客</div>
+                        </div>
+                    </div>
+                </div>
+                </div>
 		<div class="row part_hot">
 			<div class="col-sm-12">
 				<span class="pull-left" style="padding: 10px;font-size:16px;font-weight: bold;">热门话题</span>
@@ -61,6 +66,21 @@
 </template>
 
 <script>
+	import Vue from 'vue'
+import {mapActions, mapGetters} from 'vuex'
+	import {imgBaseUrl} from '../../config/env.js'
+export default{
+	name:"myself",
+	data(){
+		return {
+			imgBaseUrl
+		}
+	},
+	 computed: {
+      ...mapGetters(['nav_msg','user']) // 动态计算属性，相当于this.$store.getters.resturantName
+  }
+
+}
 </script>
 
 <style scoped>

@@ -5,6 +5,7 @@ import main from '../pages/main/main.vue'
 Vue.use(Router)
 
 export default new Router({
+	  base: '/dist/', 
 		routes : [
 		{
 			path:'/im',

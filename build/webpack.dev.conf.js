@@ -57,17 +57,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       template: 'index.html',
       inject: true
     }),
-		 new HtmlWebpackPlugin({
-
-        filename: 'im.html',
-
-        template: 'src/pages/im/im.html',
-
-        inject: true,
-
-        chunks: ['im']
-
-    }),
     // copy custom static assets
     new CopyWebpackPlugin([
       {

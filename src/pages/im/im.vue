@@ -5,7 +5,7 @@
             <div id="header">
                 <div  class="user_w_f1">
                     <div class="left_head">
-                     <img :src="Alldata.user.uimage" width="50" height="50" class="face"/>
+                     <img :src="imgBaseUrl+Alldata.user.uimage" width="50" height="50" class="face"/>
                     <span class="user_name">{{Alldata.user.uname}}</span>
                     </div>
                     <div class="img_head">
@@ -26,7 +26,7 @@
                 <ul id="fre_list">
                     <li v-for="(value,index) in Alldata.friend" @click='out(value,index)'v-bind:class="{li_click:index==Alldata.Active}">
                         <div class="li_img">
-                            <img v-bind:src="value.user.uimage" width="50" height="50" />
+                            <img v-bind:src="imgBaseUrl+value.user.uimage" width="50" height="50" />
 
                         </div>
                         <div class="li_name">
@@ -58,8 +58,8 @@
                         <ul class="liuyan clearfix" id="main_talk2">
                             <li v-for="m in Alldata.msg" v-bind:class="m.uid==Alldata.user.uid?'ly_R clearfix':'ly_L clearfix'">
 
-                           <img v-if="m.uid==Alldata.user.uid" v-bind:src="Alldata.user.uimage" v-bind:class="m.uid==Alldata.user.uid?'wx_head_r':'wx_head_l'"/>
-                            <img v-else v-bind:src="Alldata.list.uimage" v-bind:class="m.uid==Alldata.user.uid?'wx_head_r':'wx_head_l'"/>
+                           <img v-if="m.uid==Alldata.user.uid" v-bind:src="imgBaseUrl+Alldata.user.uimage" v-bind:class="m.uid==Alldata.user.uid?'wx_head_r':'wx_head_l'"/>
+                            <img v-else v-bind:src="imgBaseUrl+Alldata.list.uimage" v-bind:class="m.uid==Alldata.user.uid?'wx_head_r':'wx_head_l'"/>
 
                           <div v-bind:class="m.uid==Alldata.user.uid?'ly_R_T':'ly_L_T'">
                                 <p><span>{{m.pmdatetime}}</span>{{m.pmcontent}}</p>
@@ -85,6 +85,7 @@
 	import Vue from 'vue'
 	import VueResource from 'vue-resource'
 	import '../../mock/mockServer.js'
+		import {imgBaseUrl} from '../../config/env.js'
 	Vue.use(VueResource)
 		var url = window.location.href;
 	function getUrlParam(url,name){
@@ -118,7 +119,8 @@
 	name:'bigdiv',
     data(){
 		return {
-Alldata
+Alldata,
+imgBaseUrl
 	}},
 			 methods: {
         query_myselft: function () {                    //查询自己的信息，返回头像 名字

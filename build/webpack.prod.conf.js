@@ -74,29 +74,6 @@ const webpackConfig = merge(baseWebpackConfig, {
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
     }),
-		new HtmlWebpackPlugin({
-
-        filename: config.build.im,   
-
-        template: 'im.html',
-
-        inject: true,
-
-        minify: {
-
-            removeComments: true,
-
-            collapseWhitespace: true,
-
-            removeAttributeQuotes: true
-
-        },
-
-        chunksSortMode: 'dependency',
-
-        chunks: ['manifest', 'vendor', 'im']
-
-    }),
     // keep module.id stable when vendor modules does not change
     new webpack.HashedModuleIdsPlugin(),
     // enable scope hoisting

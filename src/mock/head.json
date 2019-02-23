@@ -1,0 +1,25 @@
+{
+	"myself": {
+		"uid": "1608030149",
+		"uaiais": null,
+		"uimage": "/static/images/1.jpg",
+		"ulogon": null,
+		"upasswd": "123456",
+		"usex": null,
+		"uname": "clin",
+		"uskin": null,
+		"uqq": null,
+		"uschool": null,
+		"uwork": null,
+		"utel": null,
+		"uinfo": null,
+		"udatetime": null,
+		"ublog": null
+	},
+	"navMsg": {
+		"attendCount": 2,
+		"fansCount": 2,
+		"blogCount": 4
+	}
+
+}

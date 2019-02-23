@@ -1,302 +1,322 @@
 <template>
 			<div class="row" id="edit_form">
-				<span class="pull-left" style="margin:15px;">编写新鲜事</span>
-				<span class="tips pull-right" style="margin:15px;"></span>
-				<form role="form" style="margin-top: 50px;">
-					<div class="form-group">
-						<div class="col-sm-12">
-							<textarea spellcheck="false" contentEditable="true" id="content" class="form-control "></textarea>
-						</div>
-						<div class="col-sm-12" style="margin-top: 12px;">
-							<div id="app">
-								<span class="emoji">表情</span>
+                    <span class="pull-left" style="margin:15px;">编写新鲜事</span>
+                    <span class="tips pull-right" style="margin:15px;"></span>
+                    <div id="app">
 
-								<span class="pic" @click="fileClick">图片 </span>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <textarea spellcheck="false" contentEditable="true" id="content"
+                                              class="form-control "></textarea>
+                                </div>
+                                <div class="col-sm-12" style="margin-top: 12px;">
 
-						
+                                    <span class="emoji">表情</span>
 
-									<div class="hello" v-bind:class="Alldata.imgList.length>0?'display_block':'display_none'">
-										<div class="upload">
-											<div class="upload_warp_text">
-												选中{{Alldata.imgList.length}}张文件，共{{bytesToSize(Alldata.size)}}
-											</div>
-											<input @change="fileChange($event)" type="file" id="upload_file" multiple style="display: none" />
-											<div class="upload_warp_img" v-show="Alldata.imgList.length!=0">
-												<div class="upload_warp_img_div" v-for="(item,index) of Alldata.imgList">
-													<div class="upload_warp_img_div_top">
-														<div class="upload_warp_img_div_text">
-															{{item.file.name}}
-														</div>
-														<img src="img/del.png" class="upload_warp_img_div_del" @click="fileDel(index)">
-													</div>
-													<img :src="item.file.src">
-												</div>
-												<div class="upload_warp">
-													<div class="upload_warp_left" @click="fileClick">
-														<img src="../../assets/img/upload.png">
-													</div>
-												</div>
-											</div>
+                                    <span class="pic" @click="fileClick">图片</span>
+                                    <span>
 
-										</div>
-									</div>
-							</div>
+  <div class="hello" v-bind:class="Alldata.imgList.length>0?'display_block':'display_none'">
+    <div class="upload">
+      <div class="upload_warp_text">
+        选中{{Alldata.imgList.length}}张文件，共{{bytesToSize(Alldata.size)}}
+      </div>
+      <input @change="fileChange($event)" type="file" id="upload_file" name="file" style="display: none" multiple/>
+      <div class="upload_warp_img" v-show="Alldata.imgList.length!=0">
+        <div class="upload_warp_img_div" v-for="(item,index) of Alldata.imgList">
+          <div class="upload_warp_img_div_top">
+            <div class="upload_warp_img_div_text">
+              {{item.file.name}}
+            </div>
+            <img src="../../assets/img/del.png" class="upload_warp_img_div_del" @click="fileDel(index)">
+          </div>
+          <img :src="item.file.src">
+        </div>
+        <div class="upload_warp">
+        <div class="upload_warp_left" @click="fileClick">
+          <img src="../../assets/img/upload.png">
+        </div>
+      </div>
+      </div>
 
+    </div>
+                 </div>
 
-						
+                                </span>
+                                </div>
 
+                                <div class="myEmoji">
+                                    <ul id="myTab" class="nav nav-tabs">
+                                        <li class="active">
+                                            <a href="#set" data-toggle="tab">
+                                                预设
+                                            </a>
+                                        </li>
+                                        <li><a href="#hot" data-toggle="tab">热门</a></li>
 
-							<div class="myEmoji">
-								<ul id="myTab" class="nav nav-tabs">
-									<li class="active">
-										<a href="#set" data-toggle="tab">
-											预设
-										</a>
-									</li>
-									<li><a href="#hot" data-toggle="tab">热门</a></li>
+                                    </ul>
+                                    <div id="myTabContent" class="tab-content">
+                                        <div class="tab-pane fade in active" id="set">
+                                            <div class="emoji_1"></div>
 
-								</ul>
-								<div id="myTabContent" class="tab-content">
-									<div class="tab-pane fade in active" id="set">
-										<div class="emoji_1"></div>
+                                        </div>
+                                        <div class="tab-pane fade" id="hot">
+                                            <div class="emoji_2"></div>
+                                        </div>
 
-									</div>
-									<div class="tab-pane fade" id="hot">
-										<div class="emoji_2"></div>
-									</div>
+                                    </div>
+                                </div>
+                                <!-- <span> <input type="file" id="selectImg" value="" ></input> </span> -->
+                                <button @click="upload" id="send" class="btn btn-default pull-right disabled" >发布</button>
+                            </div>
 
-								</div>
-							</div>
-							<!-- <span> <input type="file" id="selectImg" value="" ></input> </span> -->
-							<button type="button" id="send" class="btn btn-default pull-right disabled">发布</button>
-						</div>
-					</div>
-				</form>
-			</div>
+                     </div>
+                </div>
 </template>
 
 <script>
 	import Vue from 'vue'
-	var Alldata = {
-	imgList: [],						//选中图片
-	size: 0,								//图片张数
-	content_send:"",							//发布内容时传到后台的值（包含文字表情）
-	length:0//截取字符串和表情
+      var Alldata = {
+            imgList: [],						//选中图片
+            size: 0,								//图片张数
+            content_send: "",							//发布内容时传到后台的值（包含文字表情）
+            length: 0,								//截取字符串和表情
+            file: ''
 	
 }
-	$(function() {
 	
-		$("#content").keyup(function() {
-			var id=$("#content").val()
-			//判断输入的字符串长度
-			var content_len = $("#content").val().replace(/\s/g, "").length;
-			$(".tips").text("已经输入" + content_len + "个字");
-		
-			if(content_len == 0) {
-				// alert(content);
-				$(".tips").val("");
-				$("#send").addClass("disabled");
-				return false;
-			} else {
-				$("#send").removeClass("disabled");
-			}
-		});
-	
-		/**
-		 * subs() 返回文字+表情，例如asd[img/h5.png]b[img/h6.png]
-		 * 返回asd<img src="img/h5.png">b<img src="img/h6.png">
-		 * var con="asd[img/h5.png]b[img/h6.png]"
-		 */
-		function subs(con){
-			var lin=''
-			for(var i=0;i<con.length;i++){
-				if(con.substr(i,1)=='['){
-					var s=''
-					i++
-					while(!(con.substr(i,1)==']')){
-						s+=con.substr(i,1)
-						i++
-		}lin+="<img src='" + s + "' style='width:25px;height:25px' >"
-				}else{
-					lin+=con.substr(i,1)
-				}
-			}
-			return lin;
-		}
-	
-		//点击按钮发送内容
-		$("#send").click(function() {
-				$(".myEmoji").hide();
-			var content = $("#content").val();				//输入框
-			var content_show=subs(content)
-			//判断选择的是否是图片格式		 
-			var imgPath = $(".imgPath").text();
-			var start = imgPath.lastIndexOf(".");
-			var postfix = imgPath.substring(start, imgPath.length).toUpperCase();
-	
-			if(imgPath != "") {
-	
-				if(postfix != ".PNG" && postfix != ".JPG" && postfix != ".GIF" && postfix != ".JPEG") {
-					alert("图片格式需为png,gif,jpeg,jpg格式");
-	
-				} else {
-					$(".item_msg").prepend("<div class='col-sm-12 col-xs-12 message' > <img src='../../assets/img/icon.png' class='col-sm-2 col-xs-2' style='border-radius: 50%'><div class='col-sm-10 col-xs-10'><span style='font-weight: bold;''>Jack.C</span> <br><small class='date' style='color:#999'>刚刚</small><div class='msg_content'>" + content_show + "<img class='mypic' onerror='this.src='../../assets/img/bg_1.jpg' src='file:///" + imgPath + "' ></div></div></div>");
-				}
-			} else {
-	
-				$(".item_msg").prepend("<div class='col-sm-12 col-xs-12 message' > <img src='../../assets/img/icon.png' class='col-sm-2 col-xs-2' style='border-radius: 50%'><div class='col-sm-10 col-xs-10'><span style='font-weight: bold;''>Jack.C</span> <br><small class='date' style='color:#999'>刚刚</small><div class='msg_content'>" + content_show + "</div></div></div>");
-			}
-			
-	
-			
-			
-			
-			
-			$("#content").val('')
-			$(".tips").text('');
-			Alldata.imgList=[]
-		});
-	
-		//添加表情包1
-		for(var i = 1; i < 60; i++) {
-	
-			$(".emoji_1").append("<img src='../../assets/img/f" + i + ".png' style='width:35px;height:35px' >");
-		}
-		//添加表情包2
-		for(var i = 1; i < 61; i++) {
-			
-			$(".emoji_2").append("<img src='../../assets/img/h" + i + ".png' style='width:35px;height:35px' >");
-		}
-	
-		$(".emoji").click(function() {
-	
-			$(".myEmoji").show();
-	
-			//点击空白处隐藏弹出层
-			$(document).click(function(e) {
-	
-				if(!$("#edit_form").is(e.target) && $("#edit_form").has(e.target).length === 0) {
-	
-					$(".myEmoji").hide();
-				}
-			});
-	
-		});
-	
-		//将表情添加到输入框
-		$(".myEmoji img").each(function() {
-			$(this).click(function() {
-				var url = $(this).attr("src");
-				var ele=document.getElementById('content')
-				ele.value+='['+url+']'
-				$("#send").removeClass("disabled");
-			})
-		})
-	
-	
-	
-		//放大或缩小预览图片
-		$(".mypic").click(function() {
-			var oWidth = $(this).width(); //取得图片的实际宽度  
-			var oHeight = $(this).height(); //取得图片的实际高度  
-	
-			if($(this).height() != 200) {
-				$(this).height(200);
-			} else {
-				$(this).height(oHeight + 200 / oWidth * oHeight);
-	
-			}
-	
-		})
-	
-	})
+$(function() {
+
+    $("#content").keyup(function() {
+        var id=$("#content").val()
+        //判断输入的字符串长度
+        var content_len = $("#content").val().replace(/\s/g, "").length;
+        $(".tips").text("已经输入" + content_len + "个字");
+
+        if(content_len == 0) {
+            // alert(content);
+            $(".tips").val("");
+            $("#send").addClass("disabled");
+            return false;
+        } else {
+            $("#send").removeClass("disabled");
+        }
+    });
+
+    /**
+     * subs() 返回文字+表情，例如asd[img/h5.png]b[img/h6.png]
+     * 返回asd<img src="img/h5.png">b<img src="img/h6.png">
+     * var con="asd[img/h5.png]b[img/h6.png]"
+     */
+    function subs(con){
+        var lin=''
+        for(var i=0;i<con.length;i++){
+            if(con.substr(i,1)=='['){
+                var s=''
+                i++
+                while(!(con.substr(i,1)==']')){
+                    s+=con.substr(i,1)
+                    i++
+                }lin+="<img src='" + s + "' style='width:25px;height:25px' >"
+            }else{
+                lin+=con.substr(i,1)
+            }
+        }
+        return lin;
+    }
+
+    //点击按钮发送内容
+    $("#send").click(function() {
+        $(".myEmoji").hide();
+        var content = $("#content").val();				//输入框
+        var content_show=subs(content)
+        $("#content").val('')
+        $(".tips").text('');
+        Alldata.imgList=[]
+    });
+
+    //添加表情包1
+    for(var i = 1; i < 60; i++) {
+
+        $(".emoji_1").append("<img src='../../assets/img/f" + i + ".png' style='width:35px;height:35px' >");
+    }
+    //添加表情包2
+    for(var i = 1; i < 61; i++) {
+
+        $(".emoji_2").append("<img src='../../assets/img/h" + i + ".png' style='width:35px;height:35px' >");
+    }
+
+    $(".emoji").click(function() {
+
+        $(".myEmoji").show();
+
+        //点击空白处隐藏弹出层
+        $(document).click(function(e) {
+
+            if(!$("#edit_form").is(e.target) && $("#edit_form").has(e.target).length === 0) {
+
+                $(".myEmoji").hide();
+            }
+        });
+
+    });
+
+    //将表情添加到输入框
+    $(".myEmoji img").each(function() {
+        $(this).click(function() {
+            var url = $(this).attr("src");
+            var ele=document.getElementById('content')
+            ele.value+='['+url+']'
+            $("#send").removeClass("disabled");
+        })
+    })
+
+
+
+    //放大或缩小预览图片
+    $(".mypic").click(function() {
+        var oWidth = $(this).width(); //取得图片的实际宽度
+        var oHeight = $(this).height(); //取得图片的实际高度
+
+        if($(this).height() != 200) {
+            $(this).height(200);
+        } else {
+            $(this).height(oHeight + 200 / oWidth * oHeight);
+
+        }
+
+    })
+
+})
 	export default{
 		 data(){
 				return {
 		Alldata
 			}},
-	methods: {
-		fileClick: function() {
-			document.getElementById('upload_file').click()
-		},
-		fileChange: function(el) {
-			if(!el.target.files[0].size) return;
-			this.fileList(el.target);
-			el.target.value = ''
-		},
-		fileList: function(fileList) {
-			let files = fileList.files;
-			for(let i = 0; i < files.length; i++) {
-				//判断是否为文件夹
-				if(files[i].type != '') {
-					this.fileAdd(files[i]);
-				} else {
-					//文件夹处理
-					this.folders(fileList.items[i]);
-				}
-			}
-		},
-		//文件夹处理
-		folders: function(files) {
-			let _this = this.Alldata;
-			//判断是否为原生file
-			if(files.kind) {
-				files = files.webkitGetAsEntry();
-			}
-			files.createReader().readEntries(function(file) {
-				for(let i = 0; i < file.length; i++) {
-					if(file[i].isFile) {
-						_this.foldersAdd(file[i]);
-					} else {
-						_this.folders(file[i]);
-					}
-				}
-			})
-		},
-		foldersAdd: function(entry) {
-			let _this = this.Alldata;
-			entry.file(function(file) {
-				_this.fileAdd(file)
-			})
-		},
-		fileAdd: function(file) {
-			//总大小
-			this.Alldata.size = this.Alldata.size + file.size;
-			//判断是否为图片文件
-			if(file.type.indexOf('image') == -1) {
-				file.src = 'wenjian.png';
-				this.Alldata.imgList.push({
-					file
-				});
-			} else {
-				let reader = new FileReader();
-				reader.vue = this.Alldata;
-				reader.readAsDataURL(file);
-				reader.onload = function() {
-					file.src = this.result;
-					this.vue.imgList.push({
-						file
-					});
-				}
-			}
-		},
-		fileDel: function(index) {
-			this.Alldata.size = this.Alldata.size - this.Alldata.imgList[index].file.size; //总大小
-			this.Alldata.imgList.splice(index, 1);
-		},
-		bytesToSize: function(bytes) {
-			if(bytes === 0) return '0 B';
-			let k = 1000, // or 1024
-				sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
-				i = Math.floor(Math.log(bytes) / Math.log(k));
-			return(bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i];
-		},
-		drop: function(el) {
-			el.stopPropagation();
-			el.preventDefault();
-			this.Alldata.fileList(el.dataTransfer);
-		}
-	}
+    methods: {
+        fileClick: function() {
+            document.getElementById('upload_file').click()
+        },
+
+        fileChange: function(el) {
+            Alldata.file=el.target.files[0]
+            if(!el.target.files[0].size) return;
+            this.fileList(el.target);
+            el.target.value = ''
+        },
+        upload:function(){
+                 var t_files = Alldata.imgList;
+                 var myform = new FormData();
+                  for (var i=0;i<t_files.length;i++){
+                       console.log(t_files[i].file)
+                       myform.append('file',t_files[i].file);
+                   }
+                console.log(myform)
+            this.upl(myform)
+        },upl:function(myform){
+            $.ajax({
+                url : '/upload/uploadvcf', //用于文件上传的服务器端请求地址
+                type : 'post',
+                data:myform,
+                dataType : 'json',
+                processData: false, // 告诉jQuery不要去处理发送的数据
+                contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+                cache: false,
+                async:false,
+                success : function(data) {
+                    // alert(result.result);
+                    console.log(data)
+                    mid=data.mid
+                },
+                error : function(data) {
+                    console.log(data)
+                }})
+                    this.send_msg(mid)
+        },
+    send_msg:function (mid) {
+        var content = document.getElementById("content").value
+        this.$http.post('/Msg/insert_msg',{mid:mid,content:content,uid:data.user.uid},{emulateJSON:true}).then(function(res){
+            console.log(res.data);
+        },function (res) {
+            console.log(res);
+        })
+    },
+        fileList: function(fileList) {
+            let files = fileList.files;
+
+            for(let i = 0; i < files.length; i++) {
+
+                //判断是否为文件夹
+                if(files[i].type != '') {
+                    this.fileAdd(files[i]);
+                } else {
+                    //文件夹处理
+                    this.folders(fileList.items[i]);
+                }
+            }
+        },
+        //文件夹处理
+        folders: function(files) {
+            let _this = this;
+            //判断是否为原生file
+            if(files.kind) {
+                files = files.webkitGetAsEntry();
+            }
+            files.createReader().readEntries(function(file) {
+                for(let i = 0; i < file.length; i++) {
+                    if(file[i].isFile) {
+                        _this.foldersAdd(file[i]);
+                    } else {
+                        _this.folders(file[i]);
+                    }
+                }
+            })
+        },
+        foldersAdd: function(entry) {
+            let _this = this;
+            entry.file(function(file) {
+                _this.fileAdd(file)
+            })
+        },
+        fileAdd: function(file) {
+            //总大小
+            this.size = this.size + file.size;
+            //判断是否为图片文件
+            if(file.type.indexOf('image') == -1) {
+                file.src = 'wenjian.png';
+                this.imgList.push({
+                    file
+                });
+                this.file=file
+            } else {
+                let reader = new FileReader();
+                reader.vue = this;
+                reader.readAsDataURL(file);
+                reader.onload = function() {
+                    file.src = this.result;
+                    this.vue.imgList.push({
+                        file
+                    });
+                }
+            }
+        },
+        fileDel: function(index) {
+            this.size = this.size - this.imgList[index].file.size; //总大小
+            this.imgList.splice(index, 1);
+        },
+        bytesToSize: function(bytes) {
+            if(bytes === 0) return '0 B';
+            let k = 1000, // or 1024
+                sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+                i = Math.floor(Math.log(bytes) / Math.log(k));
+            return(bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i];
+        },
+        drop: function(el) {
+            el.stopPropagation();
+            el.preventDefault();
+            this.fileList(el.dataTransfer);
+        }
+    }
 
 	}
 </script>
