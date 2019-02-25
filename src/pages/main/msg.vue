@@ -20,7 +20,7 @@
 					<ul class="ul_msg_ul">
 						<li class="zhuanfa"><span><img src="../../assets/img/zhuanfa.png"><em class="little_number">{{value.mcopy}}</em></span></li>
 						<li class="pinglun" @click="shows(index,value.mid)"><span><img src="../../assets/img/pinglun.png"><em class="little_number">{{value.mreply}}</em></span></li>
-						<li class="line" @click="Like(value.mlike,index,value.mid,data.user.uid,value.uid)"><span><img src="../../assets/img/line.png"><em
+						<li class="line" @click="Like(value.mlike,index,value.mid,user.uid,value.uid)"><span><img src="../../assets/img/line.png"><em
 								 v-bind:class="value.mlike==1?'li_like':'littel_numer'">{{value.mfav}}</em></span></li>
 						<li class="jubao"><span><img src="../../assets/img/zhuanfa.png"><em class="little_number">举报</em></span></li>
 					</ul>
@@ -59,7 +59,7 @@
 								</div>
 								<div class="hf-con pull-left" v-bind:class="Alldata.s_son==j?'display_show':'display_none'">
 									<textarea class="content_son" placeholder="" v-model="Alldata.s_son_reply"></textarea> <a href="javascript:;" class="hf-pl"
-									 @click="reply(value.mid,c.uid,data.user.uid,c.rid,j)">评论</a></div>
+									 @click="reply(value.mid,c.uid,user.uid,c.rid,j)">评论</a></div>
 							</div>
 
 							<div class="all-pl-con" v-for="(d,q) in c.list">
@@ -77,7 +77,7 @@
 
 								<div class="hf-con pull-left" v-bind:class="(Alldata.s_son_2==q && Alldata.s_son3==j)?'display_show':'display_none'">
 									<textarea class="content_son" placeholder="" v-model="Alldata.s_son_reply_2"></textarea>
-									<a href="javascript:;" class="hf-pl" @click="reply2(value.mid,d.from_userid,data.user.uid,d.rid,j)">评论</a></div>
+									<a href="javascript:;" class="hf-pl" @click="reply2(value.mid,d.from_userid,user.uid,d.rid,j)">评论</a></div>
 							</div>
 
 
@@ -98,6 +98,11 @@
 <script>
 	import Vue from 'vue'
 	import {imgBaseUrl} from '../../config/env.js'
+		import {
+		mapActions,
+		mapGetters
+	} from 'vuex'
+	import Bus from '../../config/bus.js'
 /* 	var Alldata = {
 
 		list: [
@@ -131,6 +136,9 @@
 				imgBaseUrl
 			}
 		},
+			computed: {
+			...mapGetters(['user'])
+		},
 		methods: {
 		 reply2:function(a,b,c,d,j){
                     var myDate = new Date();
@@ -142,22 +150,22 @@
                     if(m<10) m = '0' + m;
                     var now=month+"-"+date+" "+h+':'+m;
                     this.$http.post('/Msg/insert_reply',
-                        {mid:a,reply_id:b,from_id:c,content:this.Alldata.s_son_reply_2,rid:d}, {emulateJSON: true}).then(function (res) {
+                        {mid:a,reply_id:b,from_id:c,content:Alldata.s_son_reply_2,rid:d}, {emulateJSON: true}).then(function (res) {
                         console.log(res)
-                        this.contents[j].list.unshift(
+                        Alldata.contents[j].list.unshift(
                             {
-                                content:this.Alldata.s_son_reply_2,
+                                content:Alldata.s_son_reply_2,
                                 from_userid:c,
                                 rdatetime:now,
                                 reply_id:b,
                                 rid:d,
-                                uname:data.user.uname
+                                uname:this.user.uname
                             }
                         )
 
-                        this.Alldata.s_son_reply_2='回复:@'
-                        this.Alldata.s_son_2=-1
-                        this.Alldata.s_son3=-1
+                        Alldata.s_son_reply_2='回复:@'
+                        Alldata.s_son_2=-1
+                        Alldata.s_son3=-1
                     }, function (res) {
                         console.log(res);
                     })
@@ -165,14 +173,14 @@
                 ,
                 show2:function(j,q,name){
 
-                    this.Alldata.s_son_reply_2+=name+":"
-                    if(this.Alldata.s_son_2==q){
-                        this.Alldata.s_son_reply_2='回复:@'
-                        this.Alldata.s_son3=-1
-                        this.Alldata.s_son_2=-1                              //隐藏
+                    Alldata.s_son_reply_2+=name+":"
+                    if(Alldata.s_son_2==q){
+                        Alldata.s_son_reply_2='回复:@'
+                        Alldata.s_son3=-1
+                        Alldata.s_son_2=-1                              //隐藏
                     }else{
-                        this.Alldata.s_son3=j
-                        this.Alldata.s_son_2=q
+                        Alldata.s_son3=j
+                        Alldata.s_son_2=q
                     }
                 }
                 ,
@@ -186,16 +194,16 @@
                     if(m<10) m = '0' + m;
                     var now=month+"-"+date+" "+h+':'+m;
                     this.$http.post('/Msg/insert_reply',
-                        {mid:mid,reply_id:reply_id,from_id:from_id,content:this.Alldata.s_son_reply,rid:rid}, {emulateJSON: true}).then(function (res) {
+                        {mid:mid,reply_id:reply_id,from_id:from_id,content:Alldata.s_son_reply,rid:rid}, {emulateJSON: true}).then(function (res) {
                         console.log(res)
-                    this.contents[j].list.unshift(
+                    Alldata.contents[j].list.unshift(
                         {
-                                content:this.Alldata.s_son_reply,
+                                content:Alldata.s_son_reply,
                                 from_userid:from_id,
                                 rdatetime:now,
                                 reply_id:reply_id,
                                rid:rid,
-                            uname:data.user.uname
+                            uname:this.user.uname
                         }
                     )
 
@@ -213,6 +221,33 @@
                     }else{
                          this.Alldata.s_son=j
                     }
+                },
+                send_content:function(index){
+                    var myDate = new Date();
+                    var month=myDate.getMonth()+1;
+                    //获取当前日
+                    var date=myDate.getDate();
+                    var h=myDate.getHours();       //获取当前小时数(0-23)
+                    var m=myDate.getMinutes();     //获取当前分钟数(0-59)
+                    if(m<10) m = '0' + m;
+                    var now=month+"-"+date+" "+h+':'+m;
+                    alert(Alldata.contents.length+1)
+                    this.$http.post('/Msg/insert_content', {Rid:Alldata.contents.length+1,content:Alldata.content,uid:this.user.uid,mid:Alldata.msg[index].mid},{emulateJSON: true}).then(function (res) {
+                        console.log(res)
+
+                        Alldata.contents.push({
+                            rcontent:Alldata.content,
+                            rdatetime:now,
+                            uimage:this.user.uimage,
+                            uname:this.user.uname,
+                            uid:this.user.uid,
+                            rid:Alldata.contents.length+1,
+                            list:[]
+                        })
+                        Alldata.content=''
+                    }, function (res) {
+                        console.log(res);
+                    })
                 },
                 shows:function(index,mid){
                     this.$http.post('/Msg/query_contentbyMid', {mid:mid},{emulateJSON: true}).then(function (res) {
@@ -267,7 +302,7 @@
                         console.log(res.data);
                         if (res.data == 1) {
                             this.Alldata.msg[index].mlike = 1
-                            this.Alldatamsg[index].mfav += 1
+                            this.Alldata.msg[index].mfav += 1
                         }
                         else if (res.data == 0) {
                             this.Alldata.msg[index].mlike = 0
@@ -281,9 +316,12 @@
                 }
             },
             mounted: function () {
-
+				 Bus.$on('msg',function(val){//监听first组件的txt事件
+					Alldata.msg=val;
+					console.log(val)
+    });
                 this.query_msg_all()
-
+					
             }
 	}
 </script>
@@ -578,111 +616,6 @@
 
 
 
-	.upload_warp_img_div_del {
-		position: absolute;
-		top: 6px;
-		width: 16px;
-		right: 4px;
-	}
-
-	.upload_warp_img_div_top {
-		position: absolute;
-		top: 0;
-		width: 100%;
-		height: 30px;
-		background-color: rgba(0, 0, 0, 0.4);
-		line-height: 30px;
-		text-align: left;
-		color: #fff;
-		font-size: 12px;
-		text-indent: 4px;
-	}
-
-	.upload_warp_img_div_text {
-		white-space: nowrap;
-		width: 80%;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-
-	.upload_warp_img_div img {
-		max-width: 100%;
-		max-height: 100%;
-		vertical-align: middle;
-	}
-
-	.upload_warp_img_div {
-		position: relative;
-		height: 100px;
-		width: 120px;
-		border: 1px solid #ccc;
-		margin: 0px 30px 10px 0px;
-		float: left;
-		line-height: 100px;
-		display: table-cell;
-		text-align: center;
-		background-color: #eee;
-		cursor: pointer;
-	}
-
-	.upload_warp_img {
-		border-top: 1px solid #D2D2D2;
-		padding: 14px 0 0 14px;
-		overflow: hidden
-	}
-
-	.upload_warp_text {
-		text-align: left;
-		margin-bottom: 10px;
-		padding-top: 10px;
-		text-indent: 14px;
-		border-top: 1px solid #ccc;
-		font-size: 14px;
-	}
-
-	.upload_warp_right {
-		float: left;
-		width: 40%;
-		margin-left: 2%;
-		height: 100%;
-		border: 1px dashed #999;
-		border-radius: 4px;
-		line-height: 130px;
-		color: #999;
-	}
-
-	.upload_warp_left img {
-		margin-top: 32px;
-	}
-
-	.upload_warp_left {
-		float: left;
-		width: 25%;
-		height: 100%;
-		border: 1px dashed #999;
-		border-radius: 4px;
-		cursor: pointer;
-	}
-
-	.upload_warp {
-		margin-bottom: 2%;
-		height: 100px;
-	}
-
-	.upload {
-		border: 1px solid #ccc;
-		background-color: #fff;
-		width: 500px;
-		box-shadow: 0px 1px 0px #ccc;
-		border-radius: 4px;
-	}
-
-	.hello {
-		width: 500px;
-		margin-top: 5%;
-		margin-left: 5%;
-		text-align: center;
-	}
 
 	.ul_msg {
 		float: left;
@@ -712,7 +645,9 @@
 	.little_number {
 		color: darkgrey;
 	}
-
+.li_like{
+    color: red;
+}
 
 
 

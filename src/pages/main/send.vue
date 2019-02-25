@@ -76,12 +76,18 @@
 
 <script>
 	import Vue from 'vue'
+	import {imgBaseUrl} from '../../config/env.js'
+		import {
+		mapActions,
+		mapGetters
+	} from 'vuex'
       var Alldata = {
             imgList: [],						//选中图片
             size: 0,								//图片张数
             content_send: "",							//发布内容时传到后台的值（包含文字表情）
             length: 0,								//截取字符串和表情
-            file: ''
+            file: '',
+			imgBaseUrl
 	
 }
 	
@@ -138,12 +144,12 @@ $(function() {
     //添加表情包1
     for(var i = 1; i < 60; i++) {
 
-        $(".emoji_1").append("<img src='../../assets/img/f" + i + ".png' style='width:35px;height:35px' >");
+        $(".emoji_1").append("<img src='"+imgBaseUrl+"/static/img/f" + i + ".png' style='width:35px;height:35px' >");
     }
     //添加表情包2
     for(var i = 1; i < 61; i++) {
 
-        $(".emoji_2").append("<img src='../../assets/img/h" + i + ".png' style='width:35px;height:35px' >");
+        $(".emoji_2").append("<img src='"+imgBaseUrl+"/static/img/h" + i + ".png' style='width:35px;height:35px' >");
     }
 
     $(".emoji").click(function() {
@@ -193,6 +199,9 @@ $(function() {
 				return {
 		Alldata
 			}},
+				computed: {
+				...mapGetters(['user'])
+			},
     methods: {
         fileClick: function() {
             document.getElementById('upload_file').click()
@@ -214,6 +223,7 @@ $(function() {
                 console.log(myform)
             this.upl(myform)
         },upl:function(myform){
+			var mid=null
             $.ajax({
                 url : '/upload/uploadvcf', //用于文件上传的服务器端请求地址
                 type : 'post',
@@ -235,7 +245,7 @@ $(function() {
         },
     send_msg:function (mid) {
         var content = document.getElementById("content").value
-        this.$http.post('/Msg/insert_msg',{mid:mid,content:content,uid:data.user.uid},{emulateJSON:true}).then(function(res){
+        this.$http.post('/Msg/insert_msg',{mid:mid,content:content,uid:this.user.uid},{emulateJSON:true}).then(function(res){
             console.log(res.data);
         },function (res) {
             console.log(res);
@@ -294,7 +304,7 @@ $(function() {
                 reader.readAsDataURL(file);
                 reader.onload = function() {
                     file.src = this.result;
-                    this.vue.imgList.push({
+                    Alldata.imgList.push({
                         file
                     });
                 }

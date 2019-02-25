@@ -16,8 +16,8 @@ if (process.env.NODE_ENV == 'development') {
     imgBaseUrl = '';
 
 }else if(process.env.NODE_ENV == 'production'){
-	baseUrl = 'D:/vue/final2/dist';
-    imgBaseUrl = 'D:/vue/final2/dist';
+	baseUrl = '';
+    imgBaseUrl = '';
 }
 
 export {

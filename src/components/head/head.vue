@@ -94,6 +94,7 @@
 <script>
 	import Vue from 'vue'
 	import {mapActions, mapGetters} from 'vuex'
+	import Bus from '../../config/bus.js'
 	const data = {
 		search_flag: false,
 		flag: false,
@@ -173,8 +174,9 @@
 					for (var i = 0; i < res.data.length; i++) {
 						res.data[i].mcontent = this.subs(res.data[i].mcontent)
 					}
-					Alldata.msg = res.data;
-					console.log(Alldata.msg)
+					 Bus.$emit('msg',res.data);
+					/* Alldata.msg = res.data; */
+					console.log(res.data)
 					data.LIKE = 0
 					data.home = 0
 				}, function(res) {
