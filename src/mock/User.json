@@ -1,0 +1,13 @@
+{
+	"user": {
+
+            "message":200,
+            "data":{
+                    "user_id": "1608030149",
+                    "user_aiais": "clim",
+                    "user_image":"/static/images/2.jpg",
+                    "Authorization":"asdasd"
+                    }
+
+          }
+ }

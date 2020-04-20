@@ -1,0 +1,231 @@
+body html {
+			width: 100%;
+			margin: 0px;
+			padding: 0px;
+		}
+		
+		.Registercontent {
+			width: 100%;
+			height: 100%;
+			margin: 0px;
+			padding: 0px;
+			border: 1px solid red;
+		}
+		
+		.Registercontent_inner {
+			width: 100%;
+			height: 100%;
+			background-color: white;
+			position: absolute;
+			z-index: 1;
+		}
+		
+		.Registercontent_outer {
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0,0,0,0.3);
+			position: absolute;
+			z-index: 2;
+
+		}
+		
+		.inner_log{
+			width: 100%;
+			height: 6%;
+			border-bottom: 1px solid rgb(120,120,120);
+		}
+		
+		.inner_uletf{
+			width: 30%;
+			height: 100%;
+			float: left;
+			padding-left: 20%;
+			
+		}
+		
+		.inner_urigth{
+			margin-top: 0.65%;
+			float: right;
+			height: 100%;
+			width: 35%;
+			padding-right: 15%;
+		}
+		
+		.inner_uletf li{
+			height: 100%;
+			float: left;
+			margin-top: 1.5%;
+		}
+		
+		.inner_urigth li{
+			float: right;
+		}
+		
+		.Registersousuo{
+			border-radius:0px 35px 35px 0 ;
+			width: 250%;
+			height: 60%;
+			border-bottom: 1px solid rgb(230,230,230) ;
+			border-top: 1px solid rgb(230,230,230) ;
+			border-right: 1px solid rgb(230,230,230) ;
+			border-left: none ;
+			background-color:rgb(230,230,230) ;
+		}
+		
+		.inner_uletf_sousuo{
+			width: 9%;
+			padding-top: 0.7%;
+		}
+		
+		.inner_uletf_log{
+			width: 10%;
+			height: 100%;
+		}
+		
+		#icon_suosou{
+			padding-top: 9%;
+			padding-bottom: 15%;
+			padding-left: 40%;
+			padding-right: 15%;
+			border-bottom: 1px solid rgb(230,230,230) ;
+			border-top: 1px solid rgb(230,230,230) ;
+			border-left: 1px solid rgb(230,230,230) ;
+			border-radius: 35px 0px 0px 35px ;
+			background-color:rgb(230,230,230) ;
+			font-size: 1.5em;
+		}
+		
+		.inner_urigthLogin{
+			border-radius: 100px ;
+			height: 48%;
+			width: 16%;
+			border: 1px solid #1da1f2;
+			color: #1da1f2;
+			text-align: center;
+			padding-top: 0.6%;
+			margin-right: 3%;
+		}
+		
+		.inner_urigthRegister{
+			border-radius: 100px ;
+			height: 50%;
+			width: 17%;
+			background-color: #1da1f2;
+			color: white;
+			text-align: center;
+			padding-top: 0.6%;
+			
+		}
+		
+		.outer_r{
+			margin-left: auto;
+			margin-right: auto;
+			width: 33%;
+			height: 75%;
+			margin-top: 8%;
+			background-color: white;
+		}
+		
+		.outer_rnext{
+			display: none;
+			margin-left: auto;
+			margin-right: auto;
+			width: 33%;
+			height: 75%;
+			margin-top: 8%;
+			background-color: white;
+		}
+		
+		.outer_rTop{
+			padding-top: 2%;
+			width: 100%;
+			height: 8%;
+		}
+		
+		.outer_rTopleft{
+			margin-left: 3%;
+			float: left;
+			width: 44%;
+			height: 100%;
+		}
+		
+		.outer_rToprigth{
+			float: right;
+			width: 44%;
+			height: 100%;
+			margin-right: 3%;
+		}
+		
+		.outer_rToprigth_next{
+			text-align: center;
+			padding-top: 3%;
+			float: right;
+			border-radius:20px ;
+			width: 30%;
+			height: 54%;
+			background-color: #1da1f2;
+			color: white;
+			cursor: pointer;
+		}
+		
+		
+		.outer_rCont{
+			width: 90%;
+			height: 50%;
+			padding-left: 7%;
+			padding-top: 7%;
+		}
+		
+		.outer_rContInp{
+			width: 95%;
+			height: 15%;
+			margin-top: 2%;
+			border-top:none ;
+			border-left:none ;
+			border-right:none ;
+			border-bottom:1px solid rgb(170, 184, 194);
+			color: rgb(170, 184, 194);;
+			font-size: 17px;
+			/*padding-top: 3%;*/
+		}
+		
+		.outer_rContInp:focus{
+			border-top:none ;
+			border-left:none ;
+			border-right:none ;
+			border-bottom:2px solid #1da1f2;
+		}
+		
+		.yanzhengma{
+			width: 69%;
+			height: 15%;
+			border-top:none ;
+			border-left:none ;
+			border-right:none ;
+			border-bottom:1px solid rgb(170, 184, 194);
+			color: rgb(170, 184, 194);;
+			font-size: 17px;
+			padding-top: 3%;
+			margin: 0;
+		}
+		
+		#btnCode{
+			width: 25%;
+			height: 15%;
+			border-top:none ;
+			border-left:none ;
+			border-right:none ;
+			border-bottom:1px solid rgb(170, 184, 194);
+			color: rgb(170, 184, 194);;
+			font-size: 15px;
+			background-color: white;
+			padding-right: 5%;
+			padding-left: -3%;
+		}
+		
+		.yanzhengma:focus{
+			border-top:none ;
+			border-left:none ;
+			border-right:none ;
+			border-bottom:2px solid #1da1f2;
+		}

@@ -4,32 +4,22 @@ import * as getters from './getters.js'
 import * as actions from './actions.js'
 import * as mutations from './mutations.js'
 
-Vue.use(Vuex) 
+Vue.use(Vuex)
 //声明全局维护的状态state
 const state={
 	//个人信息，粉丝关注博客数量
-	nav_msg:{								
+	nav_msg:{
 		attendCount:0,
 		fansCount:0,
 		blogCount:0
 	},
 	user:{
-		uid: "",
-	uaiai: null,
-	uimage: "",
-	ulogon: null,
-	upasswd: "",
-	usex: null,
-	uname: "",
-	uskin: null,
-	uqq: null,
-	uschool: null,
-	uwork: null,
-	utel: null,
-	uinfo: null,
-	udatetime: null,
-	ublog: null
-	}
+		user_id: "",
+	user_aiais: null,
+	user_image:"",
+	token:""
+	},
+	 Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : ''
 }
 
 //注册上面引入的各大模块

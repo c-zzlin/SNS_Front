@@ -7,7 +7,7 @@
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <textarea spellcheck="false" contentEditable="true" id="content"
-                                              class="form-control "></textarea>
+                                              class="form-control " v-model="Alldata.input_content"></textarea>
                                 </div>
                                 <div class="col-sm-12" style="margin-top: 12px;">
 
@@ -81,16 +81,22 @@
 		mapActions,
 		mapGetters
 	} from 'vuex'
-      var Alldata = {
+  import{
+	  blog_send,
+    blog_upload
+  } from '../../request/api'
+  import axios from 'axios'
+  var Alldata = {
             imgList: [],						//选中图片
             size: 0,								//图片张数
             content_send: "",							//发布内容时传到后台的值（包含文字表情）
             length: 0,								//截取字符串和表情
             file: '',
+    input_content:'',
 			imgBaseUrl
-	
+
 }
-	
+
 $(function() {
 
     $("#content").keyup(function() {
@@ -132,24 +138,24 @@ $(function() {
     }
 
     //点击按钮发送内容
-    $("#send").click(function() {
+   /* $("#send").click(function() {
         $(".myEmoji").hide();
         var content = $("#content").val();				//输入框
         var content_show=subs(content)
         $("#content").val('')
         $(".tips").text('');
         Alldata.imgList=[]
-    });
+    });*/
 
     //添加表情包1
     for(var i = 1; i < 60; i++) {
 
-        $(".emoji_1").append("<img src='"+imgBaseUrl+"/static/img/f" + i + ".png' style='width:35px;height:35px' >");
+        $(".emoji_1").append("<img src='/static/img/f" + i + ".png' style='width:35px;height:35px' >");
     }
     //添加表情包2
     for(var i = 1; i < 61; i++) {
 
-        $(".emoji_2").append("<img src='"+imgBaseUrl+"/static/img/h" + i + ".png' style='width:35px;height:35px' >");
+        $(".emoji_2").append("<img src='/static/img/h" + i + ".png' style='width:35px;height:35px' >");
     }
 
     $(".emoji").click(function() {
@@ -171,8 +177,8 @@ $(function() {
     $(".myEmoji img").each(function() {
         $(this).click(function() {
             var url = $(this).attr("src");
-            var ele=document.getElementById('content')
-            ele.value+='['+url+']'
+           // var ele=document.getElementById('content')
+            Alldata.input_content+='['+url+']'
             $("#send").removeClass("disabled");
         })
     })
@@ -195,6 +201,7 @@ $(function() {
 
 })
 	export default{
+	  inject: ['reload'],
 		 data(){
 				return {
 		Alldata
@@ -217,39 +224,46 @@ $(function() {
                  var t_files = Alldata.imgList;
                  var myform = new FormData();
                   for (var i=0;i<t_files.length;i++){
-                       console.log(t_files[i].file)
+                      /* console.log(t_files[i].file)*/
                        myform.append('file',t_files[i].file);
                    }
-                console.log(myform)
+               /* console.log(myform)*/
             this.upl(myform)
         },upl:function(myform){
-			var mid=null
-            $.ajax({
-                url : '/upload/uploadvcf', //用于文件上传的服务器端请求地址
-                type : 'post',
-                data:myform,
-                dataType : 'json',
-                processData: false, // 告诉jQuery不要去处理发送的数据
-                contentType: false, // 告诉jQuery不要去设置Content-Type请求头
-                cache: false,
-                async:false,
-                success : function(data) {
-                    // alert(result.result);
-                    console.log(data)
-                    mid=data.mid
-                },
-                error : function(data) {
-                    console.log(data)
-                }})
-                    this.send_msg(mid)
-        },
-    send_msg:function (mid) {
-        var content = document.getElementById("content").value
-        this.$http.post('/Msg/insert_msg',{mid:mid,content:content,uid:this.user.uid},{emulateJSON:true}).then(function(res){
-            console.log(res.data);
-        },function (res) {
-            console.log(res);
+          var _this=this
+        axios({
+          method: "post",
+          url: "/api/blog/upload",  // 算签名，不需要可以去掉
+          data: myform,
+          headers: {
+            'Content-Type': 'multipart/form-data',  // 文件上传
+          },
+        }).then(function (response) {
+          console.log(response.data.msg_id)
+          _this.send_msg(response.data.msg_id)
+        }).catch(function (reason) {
+      console.log("fail")
         })
+        },
+    send_msg(msg_id) {
+        var content = this.Alldata.input_content
+        console.log(content);
+        let data={
+          msg_id:msg_id,
+          content:content,
+          user_id:this.user.user_id
+        }
+        var _this=this
+        blog_send(data).then(
+          res=>{
+            $(".myEmoji").hide();
+            Alldata.input_content=''
+            $(".tips").text('');
+            Alldata.imgList=[]
+            _this.reload()
+          }
+        ).catch( err => console.log(err));
+
     },
         fileList: function(fileList) {
             let files = fileList.files;
@@ -311,8 +325,8 @@ $(function() {
             }
         },
         fileDel: function(index) {
-            this.size = this.size - this.imgList[index].file.size; //总大小
-            this.imgList.splice(index, 1);
+            Alldata.size = Alldata.size - Alldata.imgList[index].file.size; //总大小
+          Alldata.imgList.splice(index, 1);
         },
         bytesToSize: function(bytes) {
             if(bytes === 0) return '0 B';
@@ -351,8 +365,8 @@ $(function() {
 	padding:1px 0 10px 25px;
 	cursor: pointer;
 	font-size: 13px;
-	
-	
+
+
 }
 .pic{
 	background: url(../../assets/img/pic.png)  no-repeat;
@@ -360,7 +374,7 @@ $(function() {
 	padding:1px 0 10px 25px;
 	cursor: pointer;
 	font-size: 13px;
-	
+
 }
 .myEmoji{
 	background: #fff;
@@ -532,5 +546,5 @@ $(function() {
 }
 .display_none{
 	display: none;
-} 
+}
 </style>

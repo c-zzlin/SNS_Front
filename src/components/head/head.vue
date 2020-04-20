@@ -5,13 +5,14 @@
 
 		</div>
 		<div class="hed_nav_font">
-			<span class="font_logo">MicroBlog</span>
+			<span class="font_logo"></span>
 		</div>
 
 		<div class="search">
-			<input type="text" class="search__input" placeholder="Search" id="search_icon" v-on:click="search_block()" v-on:blur="search_none()" />
-			<div class="search_div" v-bind:class="data.search_flag==false?'display_none':'display_block'">
-				<ul>
+			<input type="text" class="search__input" placeholder="Search" id="search_icon" v-model="data.search_input"
+       @keyup.enter="search_friend()" v-on:click="search_block()" v-on:blur="search_none()" />
+				<!-- <div class="search_div" v-bind:class="data.search_flag==false?'display_none':'display_block'">
+			<ul>
 					<li class="search_div_li">
 						<div>
 							<p class="search_div_p">1</p><span>2222</span>
@@ -30,7 +31,7 @@
 				</ul>
 
 
-			</div>
+			</div>-->
 		</div>
 
 		<div class="nav_right">
@@ -40,14 +41,21 @@
 					<span class="li_num">{{data.home}}</span>
 				</span>
 			</div>
+      <!-- TODO 有私信消息时，在这个bar展示-->
 			<div class="nav_home" @click="tiao">
 				<img src="../../assets/img/msg.png" height="40px" width="40px" class="icon" />
+        <span class="li_circle" v-if="data.pri>0">
+					<span class="li_num">{{data.pri}}</span>
+				</span>
 			</div>
 			<div class="nav_home" id="email_icon" v-on:mouseover="block()" v-on:mouseout="none()">
 				<img src="../../assets/img/email.png" height="40px" width="40px" class="icon" />
+        <span class="li_circle" v-if="data.push>0">
+					<span class="li_num">{{data.push}}</span>
+				</span>
 				<div class="menu_ul" id="email" v-bind:class="data.flag==false?'display_none':'display_block'">
 					<ul>
-						<li>
+						<li @click="refresh_main">
 							<div class="li_email">
 								<p class="li_content">评论</p>
 								<span class="li_circle" v-if="data.content>0">
@@ -63,28 +71,30 @@
 								</span>
 							</div>
 						</li>
-						<li>
-							<div class="li_email">
-								<p class="li_content">私信</p>
-								<span class="li_circle" v-if="data.pri>0">
-									<span class="li_email_num"></span>
+            <li @click="friend_commit">
+            <div class="li_email">
+              <p class="li_content">好友申请</p>
+              <span class="li_circle" v-if="data.FRIEND>0">
+									<span class="li_email_num">{{data.FRIEND}}</span>
 								</span>
+            </div>
+          </li>
+						<li @click="log_out">
+							<div class="li_email">
+								<p class="li_content">退出登录</p>
+
 							</div>
 						</li>
-						<li>
-							<div class="li_email">
-								<p class="li_content">转发</p>
-								<span class="li_circle" v-if="data.zhuanfa>0">
-									<span class="li_email_num"></span>
-								</span>
-							</div>
-						</li>
+
 
 					</ul>
 				</div>
 			</div>
-			<div class="nav_home">
+			<div class="nav_home" @click='redirect_person'>
 				<img src="../../assets/img/person.png" height="40px" width="40px" class="icon" />
+        <span class="li_circle" v-if="data.PERSON>0">
+					<span class="li_num">{{data.PERSON}}</span>
+				</span>
 			</div>
 
 		</div> '
@@ -92,9 +102,18 @@
 </template>
 
 <script>
+
 	import Vue from 'vue'
 	import {mapActions, mapGetters} from 'vuex'
 	import Bus from '../../config/bus.js'
+	import {
+		queryNavMsg,
+    blog_refresh,
+    blog_search,
+    friend_unread,
+    logout,
+    chat_urcount
+	} from '../../request/api.js'
 	const data = {
 		search_flag: false,
 		flag: false,
@@ -102,9 +121,12 @@
 		LIKE: 0,
 		content: 0,
 		pri: 0,
-		zhuanfa: 0,
-		home: 0,
-		nav_msg: []
+		home: 0,          //第一个BAR
+    FRIEND:0,
+    push:0,         //头部第三个Bar
+    PERSON:0,       //最后一个BAR
+		nav_msg: [],
+    search_input:""
 	}
 	export default {
 		name: 'bigdiv',
@@ -113,14 +135,101 @@
 				data
 			}
 		},
+    computed: {
+      ...mapGetters(['user'])
+    },
 		methods: {
+      refresh_main(){
+        this.data.push-=this.data.content;
+        this.data.content = 0;              //后期考虑直接弹出对应的评论框
+        this.$router.replace("/main_redirect")
+      },
+      pm_count(){
+        let data = {
+          user_id:this.user.user_id
+        }
+        chat_urcount(data).then(
+          res=>{
+            if(res.code == 200){
+              this.data.pri = res.data;
+            }
+          }
+        ).catch( err => console.log(err));
+      },
+		  log_out(){
+		    let data={
+		      token:this.user.token
+        }
+        logout(data).then(
+          res=>{
+            if(res.code== 200){
+              this.clear_user(null);
+              this.$router.replace("/login")
+            }
+          }
+        ).catch( err => console.log(err));
+      },
+      search_urcount(){     //查找好友申请数量
+        console.log(this.$route.path)
+        if(this.$route.path == "/person"){
+          this.data.FRIEND = 0
+          this.data.push =0
+          return;
+        }
+        let data={
+          user_id:this.user.user_id
+        }
+        friend_unread(data).then(
+          res=>{
+            this.data.FRIEND=res.data;
+            this.data.push+=res.data;
+          }
+        ).catch( err => console.log(err));
+    },
+      friend_commit(){
+        data.push-=data.FRIEND
+        data.FRIEND=0
+        this.$router.push(
+          {
+            path:"/person_redirect",
+            query:{
+              to:3
+            }
+          }
+        );
+      },
+      search_friend(){
+        this.$router.push(
+          {
+            path:"/person_redirect",
+            query:{
+              to:1,
+              search_input:this.data.search_input
+            }
+          }
+        );
+      },
 			/**
 			 * 跳转页面
 			 */
 			tiao: function() {
-				/* window.location.href="im.html"; */
+				/*
+				 window.location.href="im.html"; */
+				this.data.pri=0;
 				this.$router.replace("/im")
 			},
+			redirect_person:function(){
+			  data.PERSON = 0
+				this.$router.push(
+            {
+              path:"/person_redirect",
+              query:{
+                to:2
+              }
+            }
+        )
+			}
+			,
 			block: function() {
 				data.flag = true;
 			},
@@ -135,53 +244,40 @@
 				data.search_flag = false;
 			},
 			...mapActions(
-				['query_nav_msg','query_user']
-			),query_myselft: function() {
-				this.$http.post('/user/query_myself_2', {
-					emulateJSON: true
-				}).then(function(res) {
-					console.log(res.data)
-					data.user = res.data
-					this.query_nav_msg1(data.user.uid)
-					this.query_user(res.data)
-					this.initWebpack()
-				}, function(res) {
-					console.log(res);
-				})
+				['query_nav_msg','get_user','clear_user']
+			),query_myself: function() {
+        let data={
+          user_id:this.user.user_id
+        }
+        queryNavMsg(data).then(             //查询动态数量、好友数量
+          res => {
+            this.query_nav_msg(res.data)      //将动态数量，好友数量存入vuex
+            this.initWebpack()                //连接websocket
+          }).catch( err => console.log(err));
 			},
-			
-			query_nav_msg1: function(uid) {
-				this.$http.post('/Msg/query_nav_msg', {
-					uid: uid
-				}, {
-					emulateJSON: true
-				}).then(function(res) {
-					this.query_nav_msg(res.data)
-				}, function(res) {
-					console.log(res);
-				})
-			} ,
-			/*  tiao:function(){
-			      window.location.href='/user/im/'+data.user.uid
-			  }, */
+
 			query_msg_refresh: function() {
-				this.$http.post('/Msg/query_msg_refresh', {
-					uid: data.user.uid
-				}, {
-					emulateJSON: true
-				}).then(function(res) {
-					console.log(res.data)
-					for (var i = 0; i < res.data.length; i++) {
-						res.data[i].mcontent = this.subs(res.data[i].mcontent)
-					}
-					 Bus.$emit('msg',res.data);
-					/* Alldata.msg = res.data; */
-					console.log(res.data)
-					data.LIKE = 0
-					data.home = 0
-				}, function(res) {
-					console.log(res)
-				})
+			  let path=this.$route.path;
+			  if(path == "/person"){
+			    this.$router.replace("/")
+          return;
+        }
+			  this.data.push-=this.data.LIKE
+        this.data.LIKE = 0
+        this.data.home = 0
+        let data={
+          user_id:this.user.user_id
+        }
+        blog_search(data).then(
+          res=>{
+            console.log(res.data)
+            for (var i = 0; i < res.data.length; i++) {
+              res.data[i].msg_content = this.subs(res.data[i].msg_content)
+            }
+            Bus.$emit('msg',res.data);				//非父子组件传值
+          }
+        ).catch( err => console.log(err));
+
 			},
 			subs: function(con) {
 				var lin = ''
@@ -201,7 +297,7 @@
 				return lin;
 			},
 			initWebpack() { //初始化websocket
-				var wsuri = "ws://127.0.0.1:8080/ws/" + data.user.uid;
+				var wsuri = "ws://127.0.0.1:8766/ws/" + this.user.user_id+"/main";
 				this.websock = new WebSocket(wsuri); //这里面的this都指向vue
 				this.websock.onopen = this.websocketopen;
 				this.websock.onmessage = this.websocketonmessage;
@@ -225,14 +321,25 @@
                     data.content-=1
                 }*/
 				switch (e.data) {
+          case 'PERSON':
+            data.PERSON +=1;
+            break;
 					case 'LIKE':
 						data.LIKE += 1;
+            data.push +=1;
 						break;
 					case 'content':
 						data.content += 1;
+            data.push +=1;
 						break;
 					case 'home':
 						data.home += 1;
+						break;
+          case 'FRIEND':
+            data.push +=1;
+            data.FRIEND +=1;
+            break;
+
 						break;
 				}
 
@@ -256,7 +363,9 @@
 
 		},
 		mounted: function() {
-			this.query_myselft()
+			this.query_myself()
+      this.search_urcount()
+      this.pm_count()
 		}
 	}
 </script>

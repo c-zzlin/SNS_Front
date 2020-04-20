@@ -1,0 +1,169 @@
+{
+  "msg":{
+	  "code":200,
+	  "msg":"success",
+	  "data":[
+             {
+                 "user_id":"9999",
+                 "user_image":"/static/images/2.jpg",
+                 "user_aiais":"clim",
+                 "msg_content":"老胖虎通宵打代码[/static/img/f31.png]",
+                 "msg_id":"123",
+                 "create_time":"12-24 18:42",
+                 "is_own":1,
+                 "img_group":[
+                   {"img_url":"/static/upload/2018112524225_0.jpg"},
+                   {"img_url":"/static/upload/2018112524225_0.jpg"},
+                   {"img_url":"/static/upload/2018112524225_0.jpg"}
+                              ],
+                              "is_like":1,
+                 "like":"111",
+                 "comment":"123"
+               }
+  ]
+  }
+  ,
+  "send": {
+    "data": {
+      "msg_id": 123
+    }
+  }
+  ,
+		"msg2":[
+			{
+	"mid": "2018112524225",
+	"uid": "1608030150",
+	"cid": null,
+	"mcontent": "老胖虎通宵打代码[/static/img/f31.png]",
+	"mfav": 3,
+	"mreply": 0,
+	"mcopy": 0,
+	"mdatetime": "12-24 18:42",
+	"uimage": "/static/images/2.jpg",
+	"messageImg": [{
+		"orders": 0,
+		"mid": "2018112524225",
+		"mimages": "/static/upload/2018112524225_0.jpg"
+	}],
+	"mlike": 1
+}, {
+	"mid": "2018112318445",
+	"uid": "1608030149",
+	"cid": null,
+	"mcontent": "3",
+	"mfav": 4,
+	"mreply": 0,
+	"mcopy": 0,
+	"mdatetime": "12-23 10:04",
+	"uimage": "/static/images/1.jpg",
+	"messageImg": [],
+	"mlike": 0
+}, {
+	"mid": "201811231822",
+	"uid": "1608030149",
+	"cid": null,
+	"mcontent": "asd",
+	"mfav": 1,
+	"mreply": 1,
+	"mcopy": 0,
+	"mdatetime": "12-23 10:02",
+	"uimage": "/static/images/1.jpg",
+	"messageImg": [{
+		"orders": 0,
+		"mid": "201811231822",
+		"mimages": "/static/upload/201811231822_0.jpg"
+	}],
+	"mlike": 0
+}, {
+	"mid": "2018112317460",
+	"uid": "1608030149",
+	"cid": null,
+	"mcontent": "你好[/static/img/f4.png]",
+	"mfav": 0,
+	"mreply": 0,
+	"mcopy": 0,
+	"mdatetime": "12-23 09:46",
+	"uimage": "/static/images/1.jpg",
+	"messageImg": [{
+		"orders": 0,
+		"mid": "2018112317460",
+		"mimages": "/static/upload/2018112317460_0.jpg"
+	}, {
+		"orders": 1,
+		"mid": "2018112317460",
+		"mimages": "/static/upload/2018112317460_1.jpg"
+	}],
+	"mlike": 0
+}, {
+	"mid": "7",
+	"uid": "1608030151",
+	"cid": null,
+	"mcontent": "xjsrf",
+	"mfav": 9999,
+	"mreply": 9999,
+	"mcopy": 9999,
+	"mdatetime": "12-22 06:59",
+	"uimage": "/static/images/3.jpg",
+	"messageImg": [],
+	"mlike": 0
+}, {
+	"mid": "6",
+	"uid": "1608030151",
+	"cid": null,
+	"mcontent": "xj",
+	"mfav": 9999,
+	"mreply": 9999,
+	"mcopy": 9999,
+	"mdatetime": "12-21 06:39",
+	"uimage": "/static/images/3.jpg",
+	"messageImg": [],
+	"mlike": 0
+}, {
+	"mid": "5",
+	"uid": "1608030149",
+	"cid": null,
+	"mcontent": "123456",
+	"mfav": 3,
+	"mreply": 1,
+	"mcopy": 1,
+	"mdatetime": "12-21 06:39",
+	"uimage": "/static/images/1.jpg",
+	"messageImg": [],
+	"mlike": 0
+}, {
+	"mid": "4",
+	"uid": "1608030150",
+	"cid": null,
+	"mcontent": "12345687",
+	"mfav": 5,
+	"mreply": 5,
+	"mcopy": 2,
+	"mdatetime": "12-21 06:27",
+	"uimage": "/static/images/2.jpg",
+	"messageImg": [],
+	"mlike": 0
+}, {
+	"mid": "2",
+	"uid": "1608030151",
+	"cid": null,
+	"mcontent": "qwe",
+	"mfav": 4,
+	"mreply": 2,
+	"mcopy": 2,
+	"mdatetime": "12-18 03:23",
+	"uimage": "/static/images/3.jpg",
+	"messageImg": [{
+		"orders": 1,
+		"mid": "2",
+		"mimages": "/static/img/bg_1.jpg"
+	}],
+	"mlike": 0
+}]
+
+
+
+
+
+
+
+}

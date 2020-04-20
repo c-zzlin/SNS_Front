@@ -5,8 +5,8 @@
 				<div id="header">
 					<div class="user_w_f1">
 						<div class="left_head">
-							<img :src="imgBaseUrl+user.uimage" width="50" height="50" class="face" />
-							<span class="user_name">{{user.uname}}</span>
+							<img :src="this.user.user_image" @click="redirect_main" width="50" height="50" class="face" />
+							<span class="user_name">{{this.user.user_aiais}}</span>
 						</div>
 						<div class="img_head">
 							<img src="../../assets/img/msg.png" width="25px" height="25px" class="left_nav_head" />
@@ -26,20 +26,20 @@
 					<ul id="fre_list">
 						<li v-for="(value,index) in Alldata.friend" @click='out(value,index)' v-bind:class="{li_click:index==Alldata.Active}">
 							<div class="li_img">
-								<img v-bind:src="imgBaseUrl+value.user.uimage" width="50" height="50" />
+								<img v-bind:src="value.user.user_image" width="50" height="50" />
 
 							</div>
 							<div class="li_name">
 								<div class="time_name">
 									<p class="name w_f1">
-										<span class="li_username">{{value.user.uname}}</span>
+										<span class="li_username">{{value.user.user_aiais}}</span>
 
 									</p>
-									<p class="w_f2" v-if="value.frendList!=null">{{value.frendList.pMdatetime}}</p>
+									<p class="w_f2" v-if="value.lastMsg!=null">{{value.lastMsg.datetime}}</p>
 								</div>
 							</div>
 							<div class="content_msg">
-								<p class="somecontent" v-if="value.frendList!=null">{{value.frendList.pMcontent}}</p>
+								<p class="somecontent" v-if="value.lastMsg!=null">{{value.lastMsg.content}}</p>
 							</div>
 							<div class="li_msg" v-if="value.sum!=0">
 								<span class="li_circle">
@@ -50,19 +50,19 @@
 					</ul>
 				</div>
 			</div>
-			<div id="right" v-if="Alldata.list.uname!=null">
+			<div id="right" v-if="Alldata.list.user_aiais!=null">
 				<div id="right_head">
-					<p class="topic_user">{{Alldata.list.uname}}</p>
+					<p class="topic_user">{{Alldata.list.user_aiais}}</p>
 				</div>
 				<div class="fenge"></div>
 				<ul class="liuyan clearfix" id="main_talk2">
-					<li v-for="m in Alldata.msg" v-bind:class="m.uid==user.uid?'ly_R clearfix':'ly_L clearfix'">
+					<li v-for="(m,i) in Alldata.msg" v-bind:class="m.user_id==user.user_id?'ly_R clearfix':'ly_L clearfix'">
 
-						<img v-if="m.uid==user.uid" v-bind:src="imgBaseUrl+user.uimage" v-bind:class="m.uid==user.uid?'wx_head_r':'wx_head_l'" />
-						<img v-else v-bind:src="imgBaseUrl+Alldata.list.uimage" v-bind:class="m.uid==user.uid?'wx_head_r':'wx_head_l'" />
+						<img v-if="m.user_id==user.user_id" v-bind:src="user.user_image" v-bind:class="m.user_id==user.user_id?'wx_head_r':'wx_head_l'" />
+						<img v-else v-bind:src="Alldata.list.user_image" v-bind:class="m.user_id==user.user_id?'wx_head_r':'wx_head_l'" />
 
-						<div v-bind:class="m.uid==user.uid?'ly_R_T':'ly_L_T'">
-							<p><span>{{m.pmdatetime}}</span>{{m.pmcontent}}</p>
+						<div v-bind:class="m.user_id==user.user_id?'ly_R_T':'ly_L_T'">
+							<p><span>{{m.datetime}}</span>{{m.content}}</p>
 						</div>
 					</li>
 				</ul>
@@ -91,7 +91,13 @@
 		mapActions,
 		mapGetters
 	} from 'vuex'
-	Vue.use(VueResource)
+  import {
+    chat_friend,
+    chat_record,
+    chat_send
+  } from '../../request/api'
+
+  Vue.use(VueResource)
 	/* 	var url = window.location.href;
 	function getUrlParam(url,name){
 	    var pattern = new RegExp("[/&]" + name +"\([^&]+)","g");
@@ -110,7 +116,7 @@
 	    }
 	    return items;
 	}
-	
+
 	var uid = getUrlParam(url,'im/'); */
 	const Alldata = {
 		friend: [],
@@ -118,6 +124,7 @@
 		msg: [],
 		Active: -1
 	};
+
 	export default {
 		name: 'bigdiv',
 		data() {
@@ -133,24 +140,19 @@
 			this.initWebpack()
 		},
 		methods: {
-			/*  query_myselft: function () {                    //查询自己的信息，返回头像 名字
-           this.$http.post('/user/query_myself',{uid:uid},{emulateJSON:true}).then(function(res){
-                Alldata.user=res.data
-            },function (res) {
-                console.log(res);
-            }) 
-			
-        },	*/
+      redirect_main(){
+        this.$router.replace("/");
+      },
 			query_myfriend: function() { //获取好友列表
-				this.$http.post('/user/query_myfriend', {
-					uid: this.user.uid
-				}, {
-					emulateJson: true
-				}).then(function(res) {
-					Alldata.friend = res.data
-				}, function(res) {
-					console.log(res);
-				})
+			  let data={
+          user_id: this.user.user_id
+        }
+        chat_friend(data).then(
+			    res=>{
+            console.log(res)
+            Alldata.friend=res.data
+          }
+        ).catch( err => console.log(err));
 			},
 			out: function(value, index) { //获取所有消息
 				Alldata.msg = null
@@ -158,29 +160,25 @@
 				Alldata.list = value.user
 				value.sum = 0 //点击就没有未读信
 				Alldata.res = null
-				this.$http.post(
-					'/user/query_mes', {
-						uid: this.user.uid,
-						rUid: Alldata.list.uid
-					}, {
-						emulateJson: true
-					}
-				).
-				then(function(res) {
-					Alldata.msg = res.data
-					console.log(res)
-					this.$nextTick(function() { //聊天窗口始终保持最下
-						var div = document.getElementById('main_talk2');
-						div.scrollTop = div.scrollHeight;
-					})
-				}, function(res) {
-					console.log(res);
-				})
+        let data={
+          user_id: this.user.user_id,
+          reply_id: Alldata.list.user_id
+        }
+        chat_record(data).then(           //查找聊天记录
+          res=>{
+            console.log(res)
+            Alldata.msg = res.data
+            this.$nextTick(function() { //聊天窗口始终保持最下
+              var div = document.getElementById('main_talk2');
+              div.scrollTop = div.scrollHeight;
+            })
+          }
+        ).catch( err => console.log(err));
 			},
 
 
 			initWebpack() { //初始化websocket
-				var wsuri = "ws://127.0.0.1:8080/ws/" + this.user.uid;
+				var wsuri = "ws://127.0.0.1:8766/ws/" + this.user.user_id+'/pm';
 				this.websock = new WebSocket(wsuri); //这里面的this都指向vue
 				this.websock.onopen = this.websocketopen;
 				this.websock.onmessage = this.websocketonmessage;
@@ -192,38 +190,37 @@
 			},
 			websocketonmessage(e) { //数据接收
 				console.log(e)
-				var aToStr = JSON.parse(e.data)
+				var aToStr = e.data
+        aToStr = JSON.parse(aToStr)
 				console.log(aToStr)
 				//body.innerHTML+="<br/>"+aToStr[0].from+":"+aToStr[0].content;
 				var time = this.systemTime() //获取当前时间
 
-				if (Alldata.Active != -1 && Alldata.friend[Alldata.Active].user.uid == aToStr[0].from) {
+				if (Alldata.Active != -1 && Alldata.friend[Alldata.Active].user.user_id == aToStr.from) {
 					Alldata.msg.push({
-						'pmcontent': aToStr[0].content,
-						'ruid': aToStr[0].to,
-						'uid': aToStr[0].from,
-						'pmdatetime': time
+						'content': aToStr.content,
+						'user_id': aToStr.from,
+						'datetime': time
 					});
 				}
 				if (Alldata.friend.length > 1) { //判断有几个好友
-					if (Alldata.Active != -1 && Alldata.friend[Alldata.Active].user.uid == aToStr[0].from) {
+					if (Alldata.Active != -1 && Alldata.friend[Alldata.Active].user.user_id == aToStr.from) {
 						this.update()
 					}
 				}
 				var j
 				for (var i = 0; i < Alldata.friend.length; i++) {
-
-					if (Alldata.friend[i].user.uid == aToStr[0].from) {
+					if (Alldata.friend[i].user.user_id == aToStr.from) {
 						j = i
 					}
 
 				}
 				if (Alldata.Active != j) { //不在发送消息者的界面，提示消息+1，更新提示内容
 					Vue.set(Alldata.friend[j], 'sum', Alldata.friend[j].sum += 1)
-					Vue.set(Alldata.friend[j].frendList, 'pMcontent', aToStr[0].content)
+					Vue.set(Alldata.friend[j].lastMsg, 'content', aToStr.content)
 
 				} else { //正在接受到消息的人界面，更新好友列表的提示信息
-					Vue.set(Alldata.friend[Alldata.Active].frendList, 'pMcontent', aToStr[0].content)
+					Vue.set(Alldata.friend[Alldata.Active].lastMsg, 'content', aToStr.content)
 				}
 
 
@@ -239,25 +236,29 @@
 				var msg = document.getElementById("txt_area").value; //获取输入框内容
 				if (msg.length < 1)
 					return;
-				var to = Alldata.list.uid;
-				var from = this.user.uid;
-				this.websock.send(JSON.stringify({
-					message: {
+				var to = Alldata.list.user_id;
+				var from = this.user.user_id;
+				/*this.websock.send(JSON.stringify({
 						content: msg,
 						to: to, //接收人,如果没有则置空,如果有多个接收人则用,分隔
 						from: from
-					},
-					type: "message"
-				})); //发送消息
+				})); //发送消息*/
+				let data={
+				  content:msg,
+          to:to,
+          from:from
+        }
+        chat_send(data).then(
+          res=>{}
+        ).catch( err => console.log(err));
 				this.reset(); //清空输入框
 				var time = this.systemTime() //获取当前时间
 				Alldata.msg.push({
-					'pmcontent': msg,
-					'ruid': to,
-					'uid': from,
-					'pmdatetime': time
+					'content': msg,
+					'user_id': from,
+					'datetime': time
 				}); //将消息存入消息列表
-				Vue.set(Alldata.friend[Alldata.Active].frendList, 'pMcontent', msg)
+				Vue.set(Alldata.friend[Alldata.Active].lastMsg, 'content', msg)
 				this.update();
 			},
 			reset() {

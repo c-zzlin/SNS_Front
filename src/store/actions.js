@@ -11,4 +11,6 @@
 /* export const query_nav_msg=({commit},uid)=> commit('query_nav_msg',uid) */
 
 export const query_nav_msg=({commit},nav_msg)=> commit('query_nav_msg',nav_msg)
-export const query_user=({commit},user)=> commit('query_user',user)
+/* export const query_user=({commit},user)=> commit('query_user',user) */
+export const get_user=({commit},user)=> commit('get_user',user)
+export const clear_user=({commit},user)=> commit('clear_user',user);

@@ -1,0 +1,329 @@
+body {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	color: #14171a;
+	font-size: 14px;
+	line-height: 20px;
+	overflow-y: scroll;
+}
+
+.content {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	position: absolute;
+}
+
+.login_jiemian {
+	display: none;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.3);
+	position: absolute;
+	z-index: 2;
+	border-radius: 100px;
+}
+
+.outer_r {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 27%;
+	height: 47%;
+	margin-top: 13%;
+	background-color: white;
+	border-radius: 50px;
+}
+
+.outer_rTop {
+	padding-top: 5%;
+	width: 100%;
+	height: 8%;
+	margin-bottom: 5%;
+}
+
+.outer_rTopleft {
+	margin-left: 3%;
+	float: left;
+	width: 44%;
+	height: 100%;
+}
+
+.outer_rToprigth {
+	float: right;
+	width: 44%;
+	height: 100%;
+	margin-right: 3%;
+}
+
+
+.outer_rCont {
+	width: 90%;
+	height: 50%;
+	padding-left: 7%;
+
+}
+
+.outer_rContInp {
+	width: 95%;
+	height: 15%;
+	margin-top: 2%;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid rgb(170, 184, 194);
+	color: rgb(170, 184, 194);
+	;
+	font-size: 17px;
+	/*padding-top: 3%;*/
+}
+
+.outer_rContInp:focus {
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 2px solid #1da1f2;
+}
+
+.yanzhengma {
+	width: 69%;
+	height: 15%;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid rgb(170, 184, 194);
+	color: rgb(170, 184, 194);
+	;
+	font-size: 17px;
+	padding-top: 9%;
+	margin: 0;
+}
+
+.outer_rCont_but {
+	width: 20%;
+	height: 20%;
+	background-color: #1da1f2;
+	border: none;
+	cursor: pointer;
+	border-radius: 100px;
+	margin-left: 17%;
+	margin-top: 12%;
+	color: white;
+}
+
+#btnCode {
+	width: 25%;
+	height: 15%;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid rgb(170, 184, 194);
+	color: rgb(170, 184, 194);
+	;
+	font-size: 15px;
+	background-color: white;
+	padding-right: 5%;
+	padding-left: -3%;
+}
+
+.yanzhengma:focus {
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 2px solid #1da1f2;
+}
+
+.content_left {
+	width: 50%;
+	height: 95%;
+	background-color: #1da1f2;
+	float: left;
+}
+
+.content_right {
+	width: 34.8%;
+	height: 95%;
+	float: right;
+	padding-left: 15%;
+}
+
+.content_right_login {
+	width: 95%;
+	height: 30%;
+	margin: 5%;
+}
+
+.content_right_ioc {
+	padding-left: 10%;
+	width: 42%;
+}
+
+.content_foot {
+	float: left;
+	width: 100%;
+	height: 2%;
+	position: static;
+	padding: 11px 0;
+	/*position: fixed;*/
+	border-top: 1px solid #1da1f2;
+	background-color: #fff;
+	bottom: -10%;
+	z-index: 2;
+}
+
+#but {
+	border-radius: 20px;
+	background-color: white;
+	border: 1px solid #1da1f2;
+	color: #1da1f2;
+	height: 16%;
+	width: 9%;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+#but:hover {
+	background-color: #e6ecf0;
+}
+
+.forgetPassword {
+	margin-left: 40%;
+	color: #aab8c2;
+
+}
+
+.forgetPassword:hover {
+	color: #aab8c2;
+	text-decoration: underline;
+}
+
+.logininput {
+	height: 16%;
+	width: 35%;
+	font: 400 13.3333px Arial;
+	border-color: initial;
+	border-radius: 3px;
+	border: 1px solid rgb(220, 220, 220);
+	font-size: 14px;
+	padding-left: 2%;
+}
+
+.logininput:focus {
+	border: 1px solid #71c9f8;
+}
+
+.StaticLoggedOutHomePage-signupTitle {
+	font-size: 27px;
+	line-height: 32px;
+	margin-bottom: 20%;
+	margin-top: 5%;
+}
+
+h1 {
+	font-size: 24px;
+	line-height: .8;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	text-rendering: optimizeLegibility;
+}
+
+h1 {
+	display: block;
+	font-size: 2em;
+	-webkit-margin-before: 0.67em;
+	-webkit-margin-after: 0.67em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	font-weight: bold;
+}
+
+.StaticLoggedOutHomePage-signupSubtitle {
+	color: #14171a;
+	font-size: 18px;
+	line-height: 24px;
+	margin: 20px auto;
+}
+
+h2 {
+	display: block;
+	font-size: 1.5em;
+	-webkit-margin-before: 0.83em;
+	-webkit-margin-after: 0.83em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	font-weight: bold;
+}
+
+.buttonSignup {
+	background-color: #1da1f2;
+	color: white;
+	width: 82%;
+	margin-bottom: 6%;
+}
+
+.buttonSignup:hover {
+	color: white;
+	background: #045f96;
+}
+
+/*div{display: block;}*/
+
+.alikeButton {
+	display: block;
+	cursor: pointer;
+	border-radius: 100px;
+	box-shadow: none;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 20px;
+	padding: 2.5% 9%;
+	position: relative;
+	text-align: center;
+	white-space: nowrap;
+	border: 1px solid #1da1f2;
+}
+
+.buttonLogin {
+	background-color: white;
+	color: #1da1f2;
+	width: 82%;
+}
+
+.buttonLogin:hover {
+	background-color: #e6ecf0;
+}
+
+.foot_ul {
+	background: #fff;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-moz-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	width: auto;
+	font-size: 12px;
+
+}
+
+.foot_ul li {
+	padding-left: 2%;
+}
+
+.foot_ul li a {
+	text-decoration: none;
+	color: #aab8c2;
+}

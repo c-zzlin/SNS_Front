@@ -1,0 +1,25 @@
+{
+  "friend":{
+    "code":200,
+    "msg":"success",
+    "data":{
+      "friend":[
+
+        			{"user_aiais": "ggg",
+        			"user_image": "/static/img/2.jpg",
+        			"user_id": 1608030150,
+              "user_sex":1,
+              "user_info": "fuck"
+              }
+        ,
+
+        			{"user_aiais": "ccc",
+        			"user_image": "/static/img/3.jpg",
+        			"user_id": 1608030151,
+              "user_sex":2,
+              "user_info": "fuck2"
+              }
+
+        ]
+  }}
+}

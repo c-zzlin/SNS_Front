@@ -1,0 +1,110 @@
+{
+  "content":{
+    "msg":"success",
+    "code":200,
+  "data":[
+    {
+      "user_image":"/static/images/1.jpg",
+      "user_aiais":"ccc",
+      "user_id":123,
+      "comment_id":123,
+      "content":"评论1111",
+      "create_time":"12-11 17:11",
+      "list":[
+        {
+          "reply_id":"123123",
+          "content":"回复123",
+          "user_id":"1123",
+          "user_aiais":"rrrr",
+          "comment_id":123,
+          "create_time":"12-12 12:12"
+        },
+        {
+          "reply_id":"123123",
+          "content":"回复123",
+          "user_id":"1123",
+          "user_aiais":"rrrr",
+          "comment_id":123,
+          "create_time":"12-12 12:12"
+        },
+        {
+          "reply_id":"123123",
+          "content":"回复123",
+          "user_id":"1123",
+          "user_aiais":"rrrr",
+          "comment_id":123,
+          "create_time":"12-12 12:12"
+        }
+      ]
+    },
+    {
+      "user_image":"/static/images/1.jpg",
+      "user_aiais":"ccc",
+      "user_id":123,
+      "comment_id":123,
+      "content":"评论1111",
+      "create_time":"12-11 17:11",
+      "list":[
+        {
+          "reply_id":"123123",
+          "content":"回复123",
+          "user_id":"1123",
+          "user_aiais":"rrrr",
+          "comment_id":123,
+          "create_time":"12-12 12:12"
+        },
+        {
+          "reply_id":"123123",
+          "content":"回复123",
+          "user_id":"1123",
+          "user_aiais":"rrrr",
+          "comment_id":123,
+          "create_time":"12-12 12:12"
+        },
+        {
+          "reply_id":"123123",
+          "content":"回复123",
+          "user_id":"1123",
+          "user_aiais":"rrrr",
+          "comment_id":123,
+          "create_time":"12-12 12:12"
+        }
+      ]
+    }
+  ]
+  }
+  ,
+	"content2":[{
+	"uimage": "/static/images/1.jpg",
+	"uname": "clin",
+	"uid": "1608030149",
+	"list": [{
+		"reply_id": "1608030149",
+		"content": "回复:@clin:5",
+		"from_userid": "1608030149",
+		"reply_time": "12-24 18:39",
+		"uname": "clin",
+		"rid": "1"
+	}, {
+		"reply_id": "1608030149",
+		"content": "回复:@clin4",
+		"from_userid": "1608030149",
+		"reply_time": "12-24 18:38",
+		"uname": "clin",
+		"rid": "1"
+	}],
+	"rid": "1",
+	"rdatetime": "12-21 18:38",
+	"rcontent": "额"
+}, {
+	"uimage": "/static/images/1.jpg",
+	"uname": "clin",
+	"uid": "1608030149",
+	"list": [],
+	"rid": "2",
+	"rdatetime": "12-20 18:38",
+	"rcontent": "3"
+}]
+
+	
+}

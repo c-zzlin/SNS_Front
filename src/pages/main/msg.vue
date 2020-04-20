@@ -2,26 +2,26 @@
 	<div id="msgList">
 		<div class="row item_msg" v-for="(value,index) in Alldata.msg">
 			<div class="col-sm-12 col-xs-12 message">
-				<img :src="imgBaseUrl+value.uimage" class="col-sm-2 col-xs-2" style="border-radius: 50%">
+				<img :src="value.user_image" class="col-sm-2 col-xs-2" style="border-radius: 50%">
 				<div class="col-sm-10 col-xs-10">
-					<span style="font-weight: bold;">{{value.uname}}</span>
+					<span style="font-weight: bold;">{{value.user_aiais}}</span>
 					<br>
-					<small class="date" style="color:#999">{{value.mdatetime}}</small>
+					<small class="date" style="color:#999">{{value.create_time}}</small>
 					<div class="msg_content">
-						<span v-html="value.mcontent"></span>
+						<span v-html="value.msg_content"></span>
 						<!--   <div v-for="(v,i) in value.messageImg)">
                                 <img class="mypic" v-bind:src="v.mimages">
 
                            </div>-->
-						<img class="mypic" v-for="(v,i) in value.messageImg" :src="imgBaseUrl+v.mimages">
+						<img class="mypic" v-for="(v,i) in value.img_group" :src="imgBaseUrl+v.img_url">
 					</div>
 				</div>
 				<div class="ul_msg">
 					<ul class="ul_msg_ul">
-						<li class="zhuanfa"><span><img src="../../assets/img/zhuanfa.png"><em class="little_number">{{value.mcopy}}</em></span></li>
-						<li class="pinglun" @click="shows(index,value.mid)"><span><img src="../../assets/img/pinglun.png"><em class="little_number">{{value.mreply}}</em></span></li>
-						<li class="line" @click="Like(value.mlike,index,value.mid,user.uid,value.uid)"><span><img src="../../assets/img/line.png"><em
-								 v-bind:class="value.mlike==1?'li_like':'littel_numer'">{{value.mfav}}</em></span></li>
+						<li class="zhuanfa"><span><img src="../../assets/img/zhuanfa.png"><em class="little_number">0</em></span></li>
+						<li class="pinglun" @click="show_coment(index,value.msg_id)"><span><img src="../../assets/img/pinglun.png"><em class="little_number">{{value.comment}}</em></span></li>
+						<li class="line" @click="Like(value.is_like,index,value.msg_id,user.user_id,value.user_id)"><span><img src="../../assets/img/line.png"><em
+								 v-bind:class="value.is_like==1?'li_like':'littel_numer'">{{value.like}}</em></span></li>
 						<li class="jubao"><span><img src="../../assets/img/zhuanfa.png"><em class="little_number">举报</em></span></li>
 					</ul>
 				</div>
@@ -43,41 +43,41 @@
 				<!--回复区域 begin-->
 				<div class="comment-show" v-if="Alldata.contents!=''">
 					<div class="comment-show-con clearfix" v-for="(c,j) in Alldata.contents">
-						<div class="comment-show-con-img pull-left"><img :src="imgBaseUrl+c.uimage" width="50px" heigth="50px"></div>
+						<div class="comment-show-con-img pull-left"><img :src="c.user_image" width="50px" heigth="50px"></div>
 						<div class="comment-show-con-list pull-left clearfix">
 							<div class="pl-text clearfix">
-								<a href="#" class="comment-size-name">{{c.uname}} : </a>
-								<span class="my-pl-con">&nbsp;{{c.rcontent}}</span>
+								<a href="#" class="comment-size-name">{{c.user_aiais}} : </a>
+								<span class="my-pl-con">&nbsp;{{c.content}}</span>
 							</div>
 							<div class="date-dz">
-								<span class="date-dz-left pull-left comment-time">{{c.rdatetime}}</span>
+								<span class="date-dz-left pull-left comment-time">{{c.create_time}}</span>
 								<div class="date-dz-right pull-right comment-pl-block">
 									<a href="javascript:;" class="removeBlock">删除</a>
-									<a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left" @click="show_son(j,c.uname)">回复</a>
+									<a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left" @click="show_reply(j,c.user_aiais)">回复</a>
 									<span class="pull-left date-dz-line">|</span>
 									<a href="javascript:;" class="date-dz-z pull-left"><i class="date-dz-z-click-red"></i>赞 (<i class="z-num">666</i>)</a>
 								</div>
-								<div class="hf-con pull-left" v-bind:class="Alldata.s_son==j?'display_show':'display_none'">
-									<textarea class="content_son" placeholder="" v-model="Alldata.s_son_reply"></textarea> <a href="javascript:;" class="hf-pl"
-									 @click="reply(value.mid,c.uid,user.uid,c.rid,j)">评论</a></div>
+								<div class="hf-con pull-left" v-bind:class="Alldata.show_reply_input==j?'display_show':'display_none'">
+									<textarea class="content_son" placeholder="" v-model="Alldata.reply"></textarea> <a href="javascript:;" class="hf-pl"
+									 @click="reply(value.msg_id,c.user_id,user.user_id,c.comment_id,j)">评论</a></div>
 							</div>
 
 							<div class="all-pl-con" v-for="(d,q) in c.list">
 								<div class="pl-text hfpl-text clearfix">
-									<a href="#" class="comment-size-name">{{d.uname}} : </a>
+									<a href="#" class="comment-size-name">{{d.user_aiais}} : </a>
 									<span class="my-pl-con">{{d.content}}</span></div>
-								<div class="date-dz"> <span class="date-dz-left pull-left comment-time">{{d.reply_time}}</span>
+								<div class="date-dz"> <span class="date-dz-left pull-left comment-time">{{d.create_time}}</span>
 									<div class="date-dz-right pull-right comment-pl-block">
 										<a href="javascript:;" class="removeBlock">删除</a>
-										<a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left" @click="show2(j,q,d.uname)">回复</a>
+										<a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left" @click="show_child_reply(j,q,d.user_aiais)">回复</a>
 										<span class="pull-left date-dz-line">|</span>
 										<a href="javascript:;" class="date-dz-z pull-left">
 											<i class="date-dz-z-click-red"></i>赞 (<i class="z-num">666</i>)</a> </div>
 								</div>
 
-								<div class="hf-con pull-left" v-bind:class="(Alldata.s_son_2==q && Alldata.s_son3==j)?'display_show':'display_none'">
-									<textarea class="content_son" placeholder="" v-model="Alldata.s_son_reply_2"></textarea>
-									<a href="javascript:;" class="hf-pl" @click="reply2(value.mid,d.from_userid,user.uid,d.rid,j)">评论</a></div>
+								<div class="hf-con pull-left" v-bind:class="(Alldata.reply_index==q && Alldata.child_reply_index==j)?'display_show':'display_none'">
+									<textarea class="content_son" placeholder="" v-model="Alldata.child_reply"></textarea>
+									<a href="javascript:;" class="hf-pl" @click="child_reply(value.msg_id,d.user_id,user.user_id,d.comment_id,j)">评论</a></div>
 							</div>
 
 
@@ -102,16 +102,16 @@
 		mapActions,
 		mapGetters
 	} from 'vuex'
+  import {
+    blog_search,
+    comment_search,
+    comment_insert,
+    reply_insert,
+    reply_child_insert,
+    blog_like
+  }from '../../request/api.js'
 	import Bus from '../../config/bus.js'
-/* 	var Alldata = {
 
-		list: [
-			'{1},{2}', '{3},{4}'
-		],
-		content: [],
-		flag: -1,
-		ct: ['{1}', '{2}']
-	} */
 	   var Alldata = {
             imgList: [],						//选中图片
             size: 0,								//图片张数
@@ -122,11 +122,11 @@
             flag:-1,
             contents:[],
             content:'',
-            s_son:-1,
-            s_son_reply:'回复:@',
-            s_son_2:-1,
-            s_son_reply_2:'回复:@',
-            s_son3:-1                       //记录二维列表
+            show_reply_input:-1,
+            reply:'回复:@',
+            reply_index:-1,
+            child_reply:'回复:@',
+            child_reply_index:-1                       //记录二维列表
         }
 	export default {
 		name: "msgList",
@@ -140,7 +140,7 @@
 			...mapGetters(['user'])
 		},
 		methods: {
-		 reply2:function(a,b,c,d,j){
+		 child_reply:function(msg_id,reply_id,user_id,comment_id,j){//添加子回复
                     var myDate = new Date();
                     var month=myDate.getMonth()+1;
                     //获取当前日
@@ -149,42 +149,70 @@
                     var m=myDate.getMinutes();     //获取当前分钟数(0-59)
                     if(m<10) m = '0' + m;
                     var now=month+"-"+date+" "+h+':'+m;
-                    this.$http.post('/Msg/insert_reply',
-                        {mid:a,reply_id:b,from_id:c,content:Alldata.s_son_reply_2,rid:d}, {emulateJSON: true}).then(function (res) {
+                    let data={
+                      msg_id:msg_id,
+                      reply_id:reply_id,
+                      user_id:user_id,
+                      content:Alldata.child_reply,
+                      comment_id:comment_id
+                    }
+
+                    reply_insert(data).then(
+                      res=>{
                         console.log(res)
                         Alldata.contents[j].list.unshift(
                             {
-                                content:Alldata.s_son_reply_2,
-                                from_userid:c,
-                                rdatetime:now,
-                                reply_id:b,
-                                rid:d,
+                                content:Alldata.child_reply,
+                                user_id:user_id,
+                                create_time:now,
+                                reply_id:reply_id,
+                                comment_id:comment_id,
+                                user_aiais:this.user.user_aiais,
+                                user_image:this.user.user_image
+                            }
+                        )
+
+                        Alldata.child_reply='回复:@'
+                        Alldata.reply_index=-1
+                        Alldata.child_reply_index=-1
+                      }
+                    ).catch( err => console.log(err));
+                    /* this.$http.post('/Msg/insert_reply',
+                        {msg_id:msg_id,reply_id:reply_id,user_id:user_id,content:Alldata.child_reply,comment_id:comment_id}, {emulateJSON: true}).then(function (res) {
+                        console.log(res)
+                        Alldata.contents[j].list.unshift(
+                            {
+                                content:Alldata.child_reply,
+                                user_id:user_id,
+                                create_time:now,
+                                reply_id:reply_id,
+                                comment_id:comment_id,
                                 uname:this.user.uname
                             }
                         )
 
-                        Alldata.s_son_reply_2='回复:@'
-                        Alldata.s_son_2=-1
-                        Alldata.s_son3=-1
+                        Alldata.child_reply='回复:@'
+                        Alldata.reply_index=-1
+                        Alldata.child_reply_index=-1
                     }, function (res) {
                         console.log(res);
-                    })
+                    }) */
                 }
                 ,
-                show2:function(j,q,name){
+                show_child_reply:function(j,q,name){    //展示子回复框
 
-                    Alldata.s_son_reply_2+=name+":"
-                    if(Alldata.s_son_2==q){
-                        Alldata.s_son_reply_2='回复:@'
-                        Alldata.s_son3=-1
-                        Alldata.s_son_2=-1                              //隐藏
+                    Alldata.child_reply+=name+":"
+                    if(Alldata.reply_index==q){
+                        Alldata.child_reply='回复:@'
+                        Alldata.child_reply_index=-1
+                        Alldata.reply_index=-1                              //隐藏
                     }else{
-                        Alldata.s_son3=j
-                        Alldata.s_son_2=q
+                        Alldata.child_reply_index=j
+                        Alldata.reply_index=q
                     }
                 }
                 ,
-                reply:function(mid,reply_id,from_id,rid,j){
+                reply:function(msg_id,reply_id,user_id,comment_id,j){     //回复评论
                     var myDate = new Date();
                     var month=myDate.getMonth()+1;
                     //获取当前日
@@ -193,36 +221,62 @@
                     var m=myDate.getMinutes();     //获取当前分钟数(0-59)
                     if(m<10) m = '0' + m;
                     var now=month+"-"+date+" "+h+':'+m;
-                    this.$http.post('/Msg/insert_reply',
-                        {mid:mid,reply_id:reply_id,from_id:from_id,content:Alldata.s_son_reply,rid:rid}, {emulateJSON: true}).then(function (res) {
+                    let data={
+                      msg_id:msg_id,
+                      reply_id:reply_id,
+                      user_id:user_id,
+                      content:Alldata.reply,
+                      comment_id:comment_id
+                    }
+                    reply_insert(data).then(
+                      res=>{
+                        console.log(res)
+                        Alldata.contents[j].list.unshift(
+                            {
+                                    content:Alldata.reply,
+                                    user_id:user_id,
+                                    create_time:now,
+                                    reply_id:reply_id,
+                                   comment_id:comment_id,
+                                user_aiais:this.user.user_aiais,
+                                user_image:this.user.user_image
+                            }
+                        )
+
+                            this.Alldata.reply='回复:@'
+                            this.Alldata.show_reply_input=-1
+                      }
+                    ).catch( err => console.log(err));
+                    /* this.$http.post('/Msg/insert_reply',
+                        {msg_id:msg_id,reply_id:reply_id,user_id:user_id,content:Alldata.reply,comment_id:comment_id}, {emulateJSON: true}).then(function (res) {
                         console.log(res)
                     Alldata.contents[j].list.unshift(
                         {
-                                content:Alldata.s_son_reply,
-                                from_userid:from_id,
-                                rdatetime:now,
+                                content:Alldata.reply,
+                                user_id:user_id,
+                                create_time:now,
                                 reply_id:reply_id,
-                               rid:rid,
-                            uname:this.user.uname
+                               comment_id:comment_id,
+                            user_aiais:this.user.user_aiais
                         }
                     )
 
-                        this.Alldata.s_son_reply='回复:@'
-                        this.Alldata.s_son=-1
+                        this.Alldata.reply='回复:@'
+                        this.Alldata.show_reply_input=-1
                     }, function (res) {
                         console.log(res);
-                    })
+                    }) */
                 },
-                show_son:function(j,name){
-                    this.Alldata.s_son_reply+=name
-                    if(this.Alldata.s_son==j){
-                        this.Alldata.s_son_reply='回复:@'+":"
-                        this.Alldata.s_son=-1
+                show_reply:function(j,name){        //展示回复框
+                    this.Alldata.reply+=name
+                    if(this.Alldata.show_reply_input==j){
+                        this.Alldata.reply='回复:@'+":"
+                        this.Alldata.show_reply_input=-1
                     }else{
-                         this.Alldata.s_son=j
+                         this.Alldata.show_reply_input=j
                     }
                 },
-                send_content:function(index){
+                send_content:function(index){       //发表评论
                     var myDate = new Date();
                     var month=myDate.getMonth()+1;
                     //获取当前日
@@ -232,46 +286,97 @@
                     if(m<10) m = '0' + m;
                     var now=month+"-"+date+" "+h+':'+m;
                     alert(Alldata.contents.length+1)
-                    this.$http.post('/Msg/insert_content', {Rid:Alldata.contents.length+1,content:Alldata.content,uid:this.user.uid,mid:Alldata.msg[index].mid},{emulateJSON: true}).then(function (res) {
+                    let data={
+                      content:Alldata.content,
+                      user_id:this.user.user_id,
+                      msg_id:Alldata.msg[index].msg_id,
+                      friend_id:Alldata.msg[index].user_id
+                    }
+                    comment_insert(data).then(
+                          res=>{
+                            console.log(res)
+                            Alldata.contents.push({
+                                content:Alldata.content,
+                                create_time:now,
+                                user_image:this.user.user_image,
+                                user_aiais:this.user.user_aiais,
+                                user_id:this.user.user_id,
+                                comment_id:res.data,
+                                list:[]
+                            })
+                            Alldata.content=''
+                          }
+                    ).catch( err => console.log(err));
+                   /* this.$http.post('/Msg/insert_content',
+                    {
+
+                    content:Alldata.content,
+                    user_id:this.user.user_id,
+                    msg_id:Alldata.msg[index].msg_id,
+                    },
+                    {emulateJSON: true}).then(function (res) {
                         console.log(res)
 
                         Alldata.contents.push({
-                            rcontent:Alldata.content,
-                            rdatetime:now,
-                            uimage:this.user.uimage,
-                            uname:this.user.uname,
-                            uid:this.user.uid,
-                            rid:Alldata.contents.length+1,
+                            content:Alldata.content,
+                            create_time:now,
+                            user_image:this.user.user_image,
+                            user_aiais:this.user.user_aiais,
+                            user_id:this.user.user_id,
                             list:[]
                         })
                         Alldata.content=''
                     }, function (res) {
                         console.log(res);
-                    })
+                    }) */
                 },
-                shows:function(index,mid){
-                    this.$http.post('/Msg/query_contentbyMid', {mid:mid},{emulateJSON: true}).then(function (res) {
+                show_coment:function(index,msg_id){     //查评论
+                   /* this.$http.post('/Msg/query_contentbyMid', {msg_id:msg_id},{emulateJSON: true}).then(function (res) {
                        console.log(res)
-                        this.Alldata.contents = res.data
+                        this.Alldata.contents = res.data.data
                     }, function (res) {
                         console.log(res);
-                    })
-                    if(this.Alldata.flag==index){
-                        this.Alldata.flag=-1
-                    }else{
-                        this.Alldata.flag=index
+                    }) */
+                  if(this.Alldata.flag==index){
+                    this.Alldata.flag=-1
+                    return;
+                  }else{
+                    this.Alldata.flag=index
+                  }
+                    let data={
+                      msg_id:msg_id,
+                      user_id:this.user.user_id
                     }
+                    comment_search(data).then(
+                    res=>{
+                      console.log(res)
+                       this.Alldata.contents = res.data
+                    }).catch( err => console.log(err));
+
                     },
-                query_msg_all: function () {
-                    this.$http.post('/Msg/query_msg_all', {emulateJSON: true}).then(function (res) {
+                query_msg_all: function () {     //查询所有动态
+
+                    /* this.$http.post('/Msg/query_msg_all', {emulateJSON: true}).then(function (res) {
                         console.log(res.data);
                         for (var i = 0; i < res.data.length; i++) {
-                            res.data[i].mcontent = this.subs(res.data[i].mcontent)
+                            res.data[i].msg_content = this.subs(res.data[i].msg_content)
                         }
                         Alldata.msg = res.data
                     }, function (res) {
                         console.log(res);
-                    })
+                    }) */
+                    let data={
+                      user_id:this.user.user_id
+                    }
+                    blog_search(data).then(
+                      res=>{
+                        console.log(res.data);
+                        for (var i = 0; i < res.data.length; i++) {
+                            res.data[i].msg_content = this.subs(res.data[i].msg_content)
+                        }
+                        Alldata.msg = res.data
+                      }
+                 ).catch( err => console.log(err));
                 },
                 subs: function (con) {
                     var lin = ''
@@ -290,38 +395,56 @@
                     }
                     return lin;
                 },
-                Like: function (mlike, index, mid, uid, suid) {
+                Like: function (is_like, index,msg_id,user_id, friend_id) {
 
-                    this.$http.post('/Msg/update_addLike', {
-                        mlike: mlike,
+                      let data={
+                        is_like: is_like,
+                        msg_id: msg_id,
+                        user_id: user_id,
+                        friend_id: friend_id
+                      }
+                      blog_like(data).then(
+                        res=>{
+                          console.log(res.data);
+                          if (is_like == 0) {
+                              this.Alldata.msg[index].is_like = 1
+                              this.Alldata.msg[index].like += 1
+                          }
+                          else if (is_like == 1) {
+                              this.Alldata.msg[index].is_like = 0
+                              this.Alldata.msg[index].like -= 1
+                          }
+                        }
+                      ).catch( err => console.log(err));
+                   /* this.$http.post('/Msg/update_addLike', {
+                        is_like: is_like,
                         index: index,
-                        mid: mid,
-                        uid: uid,
-                        suid: suid
+                        msg_id: msg_id,
+                        user_id: user_id,
+                        friend_id: friend_id
                     }, {emulateJSON: true}).then(function (res) {
                         console.log(res.data);
                         if (res.data == 1) {
-                            this.Alldata.msg[index].mlike = 1
-                            this.Alldata.msg[index].mfav += 1
+                            this.Alldata.msg[index].is_like = 1
+                            this.Alldata.msg[index].like += 1
                         }
                         else if (res.data == 0) {
-                            this.Alldata.msg[index].mlike = 0
-                            this.Alldata.msg[index].mfav -= 1
+                            this.Alldata.msg[index].is_like = 0
+                            this.Alldata.msg[index].like -= 1
                         }
                     }, function (res) {
                         console.log(res);
                     })
-
+ */
 
                 }
             },
             mounted: function () {
 				 Bus.$on('msg',function(val){//监听first组件的txt事件
 					Alldata.msg=val;
-					console.log(val)
     });
                 this.query_msg_all()
-					
+
             }
 	}
 </script>

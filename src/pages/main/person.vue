@@ -2,24 +2,24 @@
 	 <div class="col-sm-3 col-xs-12 part_right">
                 <div id="myself">
                 <div class="row text-center inform">
-                    <img v-bind:src="imgBaseUrl+user.uimage">
-                    <h4 style="font-weight: bold;">{{user.uname}}</h4>
+                    <img v-bind:src="user.user_image">
+                    <h4 style="font-weight: bold;">{{user.user_uaiais}}</h4>
                     <div class="col-sm-12 my_inform">
-                        <div class="col-sm-4 col-xs-4">
+                      <!--  <div class="col-sm-4 col-xs-4">
                             <div><span v-if="nav_msg.attendCount>0">{{nav_msg.attendCount}}</span>
                                 <span v-else>0</span></div>
                             <div class="sort">关注</div>
 
-                        </div>
+                        </div>-->
                         <div class="col-sm-4 col-xs-4">
                             <div><span v-if="nav_msg.fansCount>0">{{nav_msg.fansCount}}</span>
                                 <span v-else>0</span></div>
-                            <div class="sort">粉丝</div>
+                            <div class="sort">好友</div>
                         </div>
                         <div class="col-sm-4 col-xs-4">
                             <div><span v-if="nav_msg.blogCount>0">{{nav_msg.blogCount}}</span>
                                 <span v-else>0</span></div>
-                            <div class="sort">博客</div>
+                            <div class="sort">动态</div>
                         </div>
                     </div>
                 </div>
@@ -32,27 +32,27 @@
 			<hr style="margin: 0;padding: 0;width: 100%">
 
 			<div class="col-sm-12 item_hot">
-				<span class="pull-left">#英雄联盟s7#</span>
+				<span class="pull-left">#AAAAAA#</span>
 				<span class="pull-right item_num">34.6亿</span>
 			</div>
 
 			<div class="col-sm-12 item_hot">
-				<span class="pull-left">#今天霜降#</span>
+				<span class="pull-left">#BBBBB#</span>
 				<span class="pull-right item_num">2.6亿</span>
 			</div>
 
 			<div class="col-sm-12 item_hot">
-				<span class="pull-left">#亚洲新歌榜#</span>
+				<span class="pull-left">#CCCCC#</span>
 				<span class="pull-right item_num">10.4亿</span>
 			</div>
 
 			<div class="col-sm-12 item_hot">
-				<span class="pull-left">#11#</span>
+				<span class="pull-left">#DDDDD#</span>
 				<span class="pull-right item_num">1.5亿</span>
 			</div>
 
 			<div class="col-sm-12 item_hot">
-				<span class="pull-left">#突然开心#</span>
+				<span class="pull-left">#EEEEE#</span>
 				<span class="pull-right item_num">1.1亿</span>
 			</div>
 
