@@ -33,10 +33,10 @@
 					<input class="yanzhengma" type="text" placeholder="验证码" id="Y_Code"/>
 					<input id="btnCode" type="button" value="点击获取验证码" style="cursor: pointer;"/>
 				</div>
-				
+
 			</div>
 			<div class="outer_rnext">
-				
+
 				<div class="outer_rTop">
 					<div class="outer_rTopleft"></div>
 					<i class="layui-icon layui-icon-login-weibo" style="color:#1da1f2 ; font-size: 2.5em;margin-top: 2%;" ></i>
@@ -54,7 +54,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 	</div>
 </template>
 
@@ -75,8 +75,8 @@
 	                success:function(data){}
 	            });
 	        });
-	
-	
+
+
 	    $("#next").click(function () {
 	        var Y_Code = $("#Y_Code").val();
 	        $.ajax({
@@ -96,9 +96,9 @@
 					}
 	            }
 	        });
-	
+
 	    })
-			
+
 			$("#suc").click(function () {
 	            var uaiais = $("#Uaiais").val();
 	            var utel = $("#Utel").val();
@@ -106,7 +106,7 @@
 	            var uid = $("#Uid").val();
 	            var upasswd = $("#Upasswd").val();
 	            var qenrenUpasswd = $("#QenrenUpasswd").val();
-	
+
 	            var user = {
 	                "uaiais":uaiais,
 	                "uid":uid,
@@ -128,7 +128,7 @@
 	            	});
 	            }
 	        })
-			
+
 			$("#Uaiais").focusout(function () {
 	              var uaiais = $("#Uaiais").val();
 	              if (uaiais != null && uaiais  != ""){
@@ -147,7 +147,7 @@
 	                  });
 				  }
 	          })
-	
+
 	        $("#Utel").focusout(function () {
 	            var utel = $("#Utel").val();
 	            var message = "";
@@ -181,7 +181,7 @@
 	                });
 	            }
 	        })
-	
+
 	        $("#Ulogon").focusout(function () {
 	            var ulogon = $("#Ulogon").val();
 	            var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
@@ -205,7 +205,7 @@
 	                });
 	            }
 	        })
-	
+
 	        $("#Uid").focusout(function () {
 	            var uid = $("#Uid").val();
 	            if (uid != null && uid  != "") {
@@ -225,7 +225,7 @@
 	            }
 	        })
 		})
-	
+
 		var count = 60;
 		function GetNumber() {
 			$("#btnCode").attr("disabled", "disabled");
@@ -240,7 +240,7 @@
 		}
 </script>
 
-<style>
+<style scoped>
 	@import url(../../../static/layer/css/layui.css);
 	@import url(../../../static/css/register.css);
 </style>

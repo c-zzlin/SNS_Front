@@ -7,6 +7,7 @@ import login from '../pages/login/login.vue'
 import register from '../pages/login/register.vue'
 import  person_redirect from '../pages/person/person_redirect.vue'
 import main_redirect from '../pages/main/main_redirect'
+import test from '../pages/main/test'
 Vue.use(Router)
 
 const router =new Router({
@@ -39,6 +40,10 @@ const router =new Router({
       {
         path:"/main_redirect",
         component:main_redirect
+      },
+      {
+        path:"/test",
+        component:test
       }
 
 	]

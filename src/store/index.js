@@ -9,9 +9,9 @@ Vue.use(Vuex)
 const state={
 	//个人信息，粉丝关注博客数量
 	nav_msg:{
-		attendCount:0,
-		fansCount:0,
-		blogCount:0
+		like:0,
+		msg:0,
+		friend:0
 	},
 	user:{
 		user_id: "",

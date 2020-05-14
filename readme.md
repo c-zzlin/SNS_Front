@@ -1,10 +1,13 @@
 # vue
-rebuild
-test update
+
+环境要求：
+
+本地安装Node
 
 
-好友列表组件，
+如何部署？
 
-搜索好友-》跳转过去，显示是否已添加，显示不同的Button
+1.npm install   (国内镜像太慢，可换淘宝镜像，cnpm install)
 
-做成通用的。。个人头像跳转过去，显示全部好友
+2.npm run dev   即可在本地8081端口看到效果
+

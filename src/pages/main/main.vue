@@ -3,8 +3,8 @@
 		  <Head></Head>
 	<div class="container container_bg" id="container_main">
 		<div class="row">
-			<div class="col-sm-2"></div>
-			<div class="col-sm-6 col-xs-12 my_edit" >
+			<div class="col-sm-1"></div>
+			<div class="col-sm-8 col-xs-12 my_edit" >
 	<Send></Send>
 		<Msg></Msg>
 		</div>
@@ -17,7 +17,7 @@
 
 <script>
 	import $ from 'jquery'
-	import 'bootstrap/dist/js/bootstrap.min.js' 
+	import 'bootstrap/dist/js/bootstrap.min.js'
 	import Head from '../../components/head/head.vue'
 	import Foot from '../../components/foot/foot.vue'
 	import Send from './send.vue'
@@ -27,7 +27,7 @@
 	export default{
 		components:{
 			Head,
-			Foot, 
+			Foot,
 			Send,
 			Msg,
 			Person
@@ -39,9 +39,9 @@
 .container_bg{
 	background: #dd6572;
 	background-color:rgba(255, 255, 255, 0.5);
-	padding-bottom: 30px; 
+	padding-bottom: 30px;
 }
 .my_edit{
-    margin-top:80px; 
+    margin-top:80px;
 }
 </style>

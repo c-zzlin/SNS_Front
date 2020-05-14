@@ -3,21 +3,21 @@
                 <div id="myself">
                 <div class="row text-center inform">
                     <img v-bind:src="user.user_image">
-                    <h4 style="font-weight: bold;">{{user.user_uaiais}}</h4>
+                    <h4 style="font-weight: bold;">{{user.user_aiais}}</h4>
                     <div class="col-sm-12 my_inform">
-                      <!--  <div class="col-sm-4 col-xs-4">
-                            <div><span v-if="nav_msg.attendCount>0">{{nav_msg.attendCount}}</span>
+                      <div class="col-sm-4 col-xs-4">
+                            <div><span v-if="nav_msg.like>0">{{nav_msg.like}}</span>
                                 <span v-else>0</span></div>
-                            <div class="sort">关注</div>
+                            <div class="sort">点赞</div>
 
-                        </div>-->
+                        </div>
                         <div class="col-sm-4 col-xs-4">
-                            <div><span v-if="nav_msg.fansCount>0">{{nav_msg.fansCount}}</span>
+                            <div><span v-if="nav_msg.friend>0">{{nav_msg.friend}}</span>
                                 <span v-else>0</span></div>
                             <div class="sort">好友</div>
                         </div>
                         <div class="col-sm-4 col-xs-4">
-                            <div><span v-if="nav_msg.blogCount>0">{{nav_msg.blogCount}}</span>
+                            <div><span v-if="nav_msg.msg>0">{{nav_msg.msg}}</span>
                                 <span v-else>0</span></div>
                             <div class="sort">动态</div>
                         </div>
@@ -26,34 +26,34 @@
                 </div>
 		<div class="row part_hot">
 			<div class="col-sm-12">
-				<span class="pull-left" style="padding: 10px;font-size:16px;font-weight: bold;">热门话题</span>
-				<span class="pull-right" style="padding: 10px;">换话题</span>
+				<span class="pull-left" style="padding: 10px;font-size:16px;font-weight: bold;">推荐好友</span>
+				<span class="pull-right" style="padding: 10px;">可能认识的人</span>
 			</div>
 			<hr style="margin: 0;padding: 0;width: 100%">
 
 			<div class="col-sm-12 item_hot">
 				<span class="pull-left">#AAAAAA#</span>
-				<span class="pull-right item_num">34.6亿</span>
+				<span class="pull-right item_num">bbb的好友</span>
 			</div>
 
 			<div class="col-sm-12 item_hot">
 				<span class="pull-left">#BBBBB#</span>
-				<span class="pull-right item_num">2.6亿</span>
+				<span class="pull-right item_num">ccc的好友</span>
 			</div>
 
 			<div class="col-sm-12 item_hot">
 				<span class="pull-left">#CCCCC#</span>
-				<span class="pull-right item_num">10.4亿</span>
+				<span class="pull-right item_num">aa,bb等多人的好友</span>
 			</div>
 
 			<div class="col-sm-12 item_hot">
 				<span class="pull-left">#DDDDD#</span>
-				<span class="pull-right item_num">1.5亿</span>
+				<span class="pull-right item_num">共有3个共同好友</span>
 			</div>
 
 			<div class="col-sm-12 item_hot">
 				<span class="pull-left">#EEEEE#</span>
-				<span class="pull-right item_num">1.1亿</span>
+				<span class="pull-right item_num">ddd的好友</span>
 			</div>
 
 			<hr style="margin: 0;padding: 0;width: 100%">
@@ -89,10 +89,11 @@ export default{
 	.sort {
 		color: #777;
 	}
-
 	.part_right {
 		margin-top: 80px;
 		padding-left: 20px;
+    position: fixed;
+    left: 71%;
 	}
 
 	.inform {

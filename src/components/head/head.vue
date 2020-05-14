@@ -6,50 +6,30 @@
 		</div>
 		<div class="hed_nav_font">
 			<span class="font_logo"></span>
-		</div>
+    </div>
 
 		<div class="search">
 			<input type="text" class="search__input" placeholder="Search" id="search_icon" v-model="data.search_input"
        @keyup.enter="search_friend()" v-on:click="search_block()" v-on:blur="search_none()" />
-				<!-- <div class="search_div" v-bind:class="data.search_flag==false?'display_none':'display_block'">
-			<ul>
-					<li class="search_div_li">
-						<div>
-							<p class="search_div_p">1</p><span>2222</span>
-						</div>
-					</li>
-					<li class="search_div_li">
-						<div>
-							<p class="search_div_p">1</p><span>2222</span>
-						</div>
-					</li>
-					<li class="search_div_li">
-						<div>
-							<p class="search_div_p">1</p><span>2222</span>
-						</div>
-					</li>
-				</ul>
 
-
-			</div>-->
 		</div>
 
 		<div class="nav_right">
-			<div class="nav_home" @click="query_msg_refresh">
-				<img src="../../assets/img/home.png" height="40px" width="40px" class="icon" />
+			<div class="nav_home" @click="query_msg_refresh" @mouseover="change1_zhuye" @mouseout="change2_zhuye">
+				<img v-bind:src=data.zhuye_url height="40px" width="40px" class="icon" />
 				<span class="li_circle" v-if="data.home>0">
 					<span class="li_num">{{data.home}}</span>
 				</span>
 			</div>
       <!-- TODO 有私信消息时，在这个bar展示-->
-			<div class="nav_home" @click="tiao">
-				<img src="../../assets/img/msg.png" height="40px" width="40px" class="icon" />
+			<div class="nav_home" @click="tiao" @mouseover="change1_sixin" @mouseout="change2_sixin">
+				<img v-bind:src=data.sixin_url height="40px" width="40px" class="icon" />
         <span class="li_circle" v-if="data.pri>0">
 					<span class="li_num">{{data.pri}}</span>
 				</span>
 			</div>
 			<div class="nav_home" id="email_icon" v-on:mouseover="block()" v-on:mouseout="none()">
-				<img src="../../assets/img/email.png" height="40px" width="40px" class="icon" />
+				<img v-bind:src=data.msg_url height="40px" width="40px" class="icon" />
         <span class="li_circle" v-if="data.push>0">
 					<span class="li_num">{{data.push}}</span>
 				</span>
@@ -90,8 +70,8 @@
 					</ul>
 				</div>
 			</div>
-			<div class="nav_home" @click='redirect_person'>
-				<img src="../../assets/img/person.png" height="40px" width="40px" class="icon" />
+			<div class="nav_home" @click='redirect_person' @mouseover="change1_person" @mouseout="change2_person">
+				<img v-bind:src=data.person_url height="40px" width="40px" class="icon" />
         <span class="li_circle" v-if="data.PERSON>0">
 					<span class="li_num">{{data.PERSON}}</span>
 				</span>
@@ -126,7 +106,12 @@
     push:0,         //头部第三个Bar
     PERSON:0,       //最后一个BAR
 		nav_msg: [],
-    search_input:""
+    search_input:"",
+    zhuye_url:'/static/bar/zhuye.png',
+    sixin_url:'/static/bar/sixin.png',
+    msg_url:'/static/bar/msg.png',
+    person_url:'/static/bar/person.png'
+
 	}
 	export default {
 		name: 'bigdiv',
@@ -139,6 +124,28 @@
       ...mapGetters(['user'])
     },
 		methods: {
+      change1_zhuye(){
+        this.data.zhuye_url = '/static/bar/zhuye_blur.png'
+      },
+      change2_zhuye(){
+
+        this.data.zhuye_url = '/static/bar/zhuye.png'
+      },
+      change1_person(){
+        this.data.person_url = '/static/bar/person_blur.png'
+      },
+      change2_person(){
+        this.data.person_url = '/static/bar/person.png'
+      },
+      change1_sixin(){
+        this.data.sixin_url = '/static/bar/sixin_blur.png'
+      },
+      change2_sixin(){
+        this.data.sixin_url = '/static/bar/sixin.png'
+      }
+      ,
+
+
       refresh_main(){
         this.data.push-=this.data.content;
         this.data.content = 0;              //后期考虑直接弹出对应的评论框
@@ -162,12 +169,12 @@
         }
         logout(data).then(
           res=>{
-            if(res.code== 200){
-              this.clear_user(null);
-              this.$router.replace("/login")
-            }
+
+
           }
         ).catch( err => console.log(err));
+        this.clear_user(null);
+        this.$router.replace("/login");
       },
       search_urcount(){     //查找好友申请数量
         console.log(this.$route.path)
@@ -231,10 +238,11 @@
 			}
 			,
 			block: function() {
+        this.data.msg_url = '/static/bar/msg_blur.png'
 				data.flag = true;
 			},
 			none: function() {
-
+        this.data.msg_url = '/static/bar/msg.png'
 				data.flag = false;
 			},
 			search_block: function() {
@@ -275,6 +283,7 @@
               res.data[i].msg_content = this.subs(res.data[i].msg_content)
             }
             Bus.$emit('msg',res.data);				//非父子组件传值
+            Bus.$emit('flag', -1);
           }
         ).catch( err => console.log(err));
 
@@ -389,7 +398,8 @@
 		position: fixed;
 		height: 70px;
 		width: 100%;
-		background: whitesmoke;
+		background: white;
+    border-bottom: 1px whitesmoke solid;
 	}
 
 	.left_head_nav {
@@ -460,9 +470,9 @@
 		padding: 10px 20px 10px 20px;
 	}
 
-	.nav_home img:hover {
+/*	.nav_home img:hover {
 		background: lightgrey;
-	}
+	}*/
 
 	.li_circle {
 		border-radius: 50%;

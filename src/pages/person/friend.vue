@@ -170,7 +170,7 @@
    }
 </script>
 
-<style>
+<style scoped>
 
   #list {
   	overflow: hidden;
